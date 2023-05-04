@@ -9,21 +9,21 @@ dotenv.config();
 
 const authCheck = (req , res  , next)=>{
     // console.log(req.headers['authorization'])
-    // console.log(req.headers.cookie.split('accessToken=')[1])
+    
     if(req.headers.cookie){
         const token =req.headers.cookie.split('accessToken=')[1];
         // console.log('저장 토큰 :' , token)
-        
-         jwt.verify(token,process.env.JWT_SECRET_KEY ,(err)=>{
-            if(err){
-                
+        // const test = jwt.verify(token,process.env.JWT_SECRET_KEY)
+         const userEmail=jwt.verify(token,process.env.JWT_SECRET_KEY )
+            try{
+                req.email = userEmail.email
+                next();
+            }catch(error){
                 res.status(401).json({error:" Auth Error from authChecker"})
             }
-            else{
-                next();
-            }
-        });
-    }else{
+        }
+            
+    else{
         
         res.status(401).json({error:"Auth Error from authChecker"});
     }
