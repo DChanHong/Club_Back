@@ -28,15 +28,13 @@ app.use("/api/customer/checkID", require("./routes/customerRouter"));
 
 app.use("/api/customer/login", require("./routes/customerRouter"));
 /////
-app.use("/api/customer/accesstoken", require("./routes/customerRouter"));
+// app.use("/api/customer/accesstoken", require("./routes/customerRouter"));
 
 app.use("/api/customer/getuserInfo", require("./routes/customerRouter"));
 
 // app.use('/api/customer/login/success',require('./routes/customerRouter'))
 
-// app.use("/api/image", express.static("image"));
-
-//
+app.use("/api/image", express.static("image"));
 
 app.use("/api/customer/upload", require("./routes/customerRouter"));
 

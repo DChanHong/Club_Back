@@ -3,19 +3,13 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const customerCtrl = {
-  //이거는 걍 연습용
-  getCustomer: async (req, res) => {
-    connection.query("SELECT * FROM CUSTOMER_TABLE", (error, rows) => {
-      if (error) throw error;
-      res.send(rows); // 프론트로 rows를 다 보내주겠다.
-    });
-  },
+  //회원가입
   insertCustomer: async (req, res) => {
     //request에 프론트에서 넘어온 정보들이 넘어올거다.
-    const { c_idx, email, password, name, fm } = req.body;
-    const insertSQL = `INSERT INTO CUSTOMER_TABLE(email,password,name,fm) VALUES(?,?,?,?)`;
-    // const idSlectSQL =`SELECT email from CUSTOMER_TABLE WHERE email=?`;
-    const data = [email, password, name, fm];
+    const { email, password, name, gender, birth } = req.body;
+    const insertSQL = `INSERT INTO USER_TABLE(U_EMAIL,U_PASSWORD,U_NAME,U_GENDER,U_BIRTH) VALUES(?,?,?,?,?)`;
+
+    const data = [email, password, name, gender, birth];
     connection.query(insertSQL, data, (error, rows) => {
       if (error) throw error;
       res.send(rows);
@@ -23,7 +17,7 @@ const customerCtrl = {
   },
   //회원가입폼 아이디 중복확인
   checkID: async (req, res) => {
-    const IDcheckSQL = "SELECT email FROM CUSTOMER_TABLE WHERE email=?";
+    const IDcheckSQL = "SELECT U_EMAIL FROM USER_TABLE WHERE U_EMAIL=?";
     const { email } = req.body;
     const data = [email];
     connection.query(IDcheckSQL, data, (error, result, rows) => {
@@ -44,7 +38,7 @@ const customerCtrl = {
   //로그인 창 ID PW 유효성 확인 후 쿠키 배송
   checkLogin: async (req, res) => {
     const checkLoginSQL =
-      "SELECT * FROM CUSTOMER_TABLE WHERE email=? AND password =?";
+      "SELECT * FROM USER_TABLE WHERE U_EMAIL=? AND U_PASSWORD =?";
     const { email, password } = req.body;
     const data = [email, password];
     // console.log(data);
@@ -87,28 +81,28 @@ const customerCtrl = {
       }
     });
   },
-  accessToken: async (req, res) => {
-    const userDataSQL =
-      "SELECT  c_idx, email ,name , fm FROM CUSTOMER_TABLE WHERE email=? ";
+  // accessToken: async (req, res) => {
+  //   const userDataSQL =
+  //     "SELECT  c_idx, email ,name , fm FROM CUSTOMER_TABLE WHERE email=? ";
 
-    try {
-      const token = req.cookies.accessToken;
-      const data = jwt.verify(token, process.env.JWT_SECRET_KEY);
-      const SQLdata = [data.email];
-      // console.log(data.email)
-      connection.query(userDataSQL, SQLdata, (error, result) => {
-        if (error) throw error;
-        else {
-          res.status(200).json({ data: result });
-        }
-      });
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  },
+  //   try {
+  //     const token = req.cookies.accessToken;
+  //     const data = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  //     const SQLdata = [data.email];
+  //     // console.log(data.email)
+  //     connection.query(userDataSQL, SQLdata, (error, result) => {
+  //       if (error) throw error;
+  //       else {
+  //         res.status(200).json({ data: result });
+  //       }
+  //     });
+  //   } catch (error) {
+  //     res.status(500).json(error);
+  //   }
+  // },
   getUser: async (req, res) => {
     const userInfoSQL =
-      "SELECT email ,name , fm,IMG FROM CUSTOMER_TABLE WHERE email=? ";
+      "SELECT U_EMAIL ,U_NAME , U_GENDER,U_BIRTH,U_IMAGE FROM USER_TABLE WHERE U_EMAIL=? ";
     const SQLdata = [req.email];
     connection.query(userInfoSQL, SQLdata, (error, result) => {
       if (error) throw error;
@@ -116,7 +110,7 @@ const customerCtrl = {
     });
   },
   uploadImage: async (req, res) => {
-    const updateUserImageSQL = `UPDATE CUSTOMER_TABLE SET IMG =? where email=?`;
+    const updateUserImageSQL = `UPDATE USER_TABLE SET U_IMAGE =? where U_EMAIL=?`;
     console.log(req.file.originalname);
     const SQLdata = [req.file.originalname, req.email];
     connection.query(updateUserImageSQL, SQLdata, (error, result) => {
