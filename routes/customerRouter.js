@@ -1,7 +1,8 @@
 const customerCtrl = require("../controllers/customerCtrl");
+const homeAddCtrl = require("../controllers/homeAddCtrl");
+
 const router = require("express").Router();
 const multer = require("multer");
-// import { authCheck } from '../middleware/authCheck';
 const authCheck = require("../middleware/authCheck");
 
 router.post("/", customerCtrl.insertCustomer);
@@ -11,6 +12,7 @@ router.post("/login", customerCtrl.checkLogin);
 
 // 로그인 인증 필요
 router.get("/getuserInfo", authCheck, customerCtrl.getUser);
+router.get("/test", customerCtrl.test);
 
 //이미지 업로드
 const storage = multer.diskStorage({
@@ -30,5 +32,9 @@ router.post(
   upload.single("file"),
   customerCtrl.uploadImage
 );
+
+// 홈화면 라우터
+router.get("/getTopClubList", homeAddCtrl.getTopClubList);
+router.get("/getCateClubList", homeAddCtrl.getCateClubList);
 
 module.exports = router;

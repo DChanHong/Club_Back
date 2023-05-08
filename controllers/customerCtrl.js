@@ -118,6 +118,16 @@ const customerCtrl = {
       res.send(result);
     });
   },
+  test: async (req, res) => {
+    const testSQL = `SELECT T1.C_IDX , T1.U_IDX , T1.C_CATEGORY ,T1.C_CATE_DETAIL ,T1.C_NAME,T1.C_INTRO,T1.C_AREA,C_IMAGE ,T2.TOP_CLUB  FROM CLUB_TABLE T1 
+    LEFT JOIN (SELECT C_IDX , count(C_IDX) as TOP_CLUB FROM ATTEND_USER_TABLE GROUP BY C_IDX ORDER BY count(C_IDX) DESC LIMIT 10) T2
+    ON T1.C_IDX = T2.C_IDX
+    ORDER BY T2.TOP_CLUB DESC LIMIT 10`;
+    connection.query(testSQL, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
 };
 
 module.exports = customerCtrl;

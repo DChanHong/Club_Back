@@ -32,11 +32,21 @@ app.use("/api/customer/login", require("./routes/customerRouter"));
 
 app.use("/api/customer/getuserInfo", require("./routes/customerRouter"));
 
-// app.use('/api/customer/login/success',require('./routes/customerRouter'))
-
+//이미지 업로드
 app.use("/api/image", express.static("image"));
 
 app.use("/api/customer/upload", require("./routes/customerRouter"));
+
+app.use("/api/customer/test", require("./routes/customerRouter"));
+
+//홈 화면
+app.use("/api/customer/getTopClubList", require("./routes/customerRouter"));
+// const Route = express.Router();
+// const homeAddCtrl = require("./controllers/homeAddCtrl");
+// app.use(Route.get("/api/test", homeAddCtrl.getTopClubList));
+// 이렇게해서 되니까 컨트롤러에는 문제가 없음
+// 라우터에 문제가 있음
+app.use("/api/customer/getCateClubList", require("./routes/customerRouter"));
 
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
