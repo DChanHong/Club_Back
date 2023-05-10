@@ -27,17 +27,19 @@ app.use("/api/customer", require("./routes/customerRouter"));
 app.use("/api/customer/checkID", require("./routes/customerRouter"));
 
 app.use("/api/customer/login", require("./routes/customerRouter"));
-/////
-// app.use("/api/customer/accesstoken", require("./routes/customerRouter"));
 
+// 마이페이지
 app.use("/api/customer/getuserInfo", require("./routes/customerRouter"));
+app.use(
+  "api/customer/get/getMyAttClubList",
+  require("./routes/customerRouter")
+);
+app.use("/api/customer/getMyHostClubList", require("./routes/customerRouter"));
 
 //이미지 업로드
 app.use("/api/image", express.static("image"));
 
 app.use("/api/customer/upload", require("./routes/customerRouter"));
-
-app.use("/api/customer/test", require("./routes/customerRouter"));
 
 //홈 화면
 app.use("/api/customer/getTopClubList", require("./routes/customerRouter"));

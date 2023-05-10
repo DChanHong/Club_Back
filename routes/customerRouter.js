@@ -1,5 +1,6 @@
 const customerCtrl = require("../controllers/customerCtrl");
 const homeAddCtrl = require("../controllers/homeAddCtrl");
+const myPageCtrl = require("../controllers/myPageCtrl");
 
 const router = require("express").Router();
 const multer = require("multer");
@@ -10,9 +11,10 @@ router.post("/checkID", customerCtrl.checkID);
 router.post("/login", customerCtrl.checkLogin);
 // router.get("/accesstoken", customerCtrl.accessToken);
 
-// 로그인 인증 필요
+// 마이페이지 -> 로그인 인증 필요
 router.get("/getuserInfo", authCheck, customerCtrl.getUser);
-router.get("/test", customerCtrl.test);
+router.get("/getMyAttClubList", authCheck, myPageCtrl.getMyAttClubList);
+router.get("/getMyHostClubList", authCheck, myPageCtrl.getMyHostClubList);
 
 //이미지 업로드
 const storage = multer.diskStorage({

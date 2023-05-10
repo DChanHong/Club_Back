@@ -81,25 +81,6 @@ const customerCtrl = {
       }
     });
   },
-  // accessToken: async (req, res) => {
-  //   const userDataSQL =
-  //     "SELECT  c_idx, email ,name , fm FROM CUSTOMER_TABLE WHERE email=? ";
-
-  //   try {
-  //     const token = req.cookies.accessToken;
-  //     const data = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  //     const SQLdata = [data.email];
-  //     // console.log(data.email)
-  //     connection.query(userDataSQL, SQLdata, (error, result) => {
-  //       if (error) throw error;
-  //       else {
-  //         res.status(200).json({ data: result });
-  //       }
-  //     });
-  //   } catch (error) {
-  //     res.status(500).json(error);
-  //   }
-  // },
   getUser: async (req, res) => {
     const userInfoSQL =
       "SELECT U_EMAIL ,U_NAME , U_GENDER,U_BIRTH,U_IMAGE FROM USER_TABLE WHERE U_EMAIL=? ";
@@ -114,16 +95,6 @@ const customerCtrl = {
     console.log(req.file.originalname);
     const SQLdata = [req.file.originalname, req.email];
     connection.query(updateUserImageSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      res.send(result);
-    });
-  },
-  test: async (req, res) => {
-    const testSQL = `SELECT T1.C_IDX , T1.U_IDX , T1.C_CATEGORY ,T1.C_CATE_DETAIL ,T1.C_NAME,T1.C_INTRO,T1.C_AREA,C_IMAGE ,T2.TOP_CLUB  FROM CLUB_TABLE T1 
-    LEFT JOIN (SELECT C_IDX , count(C_IDX) as TOP_CLUB FROM ATTEND_USER_TABLE GROUP BY C_IDX ORDER BY count(C_IDX) DESC LIMIT 10) T2
-    ON T1.C_IDX = T2.C_IDX
-    ORDER BY T2.TOP_CLUB DESC LIMIT 10`;
-    connection.query(testSQL, (error, result) => {
       if (error) throw error;
       res.send(result);
     });
