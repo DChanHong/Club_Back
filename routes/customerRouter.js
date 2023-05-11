@@ -1,5 +1,4 @@
 const customerCtrl = require("../controllers/customerCtrl");
-const homeAddCtrl = require("../controllers/homeAddCtrl");
 const myPageCtrl = require("../controllers/myPageCtrl");
 
 const router = require("express").Router();
@@ -34,9 +33,5 @@ router.post(
   upload.single("file"),
   customerCtrl.uploadImage
 );
-
-// 홈화면 라우터
-router.get("/getTopClubList", homeAddCtrl.getTopClubList);
-router.get("/getCateClubList", homeAddCtrl.getCateClubList);
 
 module.exports = router;

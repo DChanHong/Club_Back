@@ -42,13 +42,16 @@ app.use("/api/image", express.static("image"));
 app.use("/api/customer/upload", require("./routes/customerRouter"));
 
 //홈 화면
-app.use("/api/customer/getTopClubList", require("./routes/customerRouter"));
-// const Route = express.Router();
-// const homeAddCtrl = require("./controllers/homeAddCtrl");
-// app.use(Route.get("/api/test", homeAddCtrl.getTopClubList));
-// 이렇게해서 되니까 컨트롤러에는 문제가 없음
-// 라우터에 문제가 있음
-app.use("/api/customer/getCateClubList", require("./routes/customerRouter"));
+app.use("/api/homeAdd", require("./routes/homeAddRouter")); // 이게 homeAddRouter 경로 설정을 해둔거임
+
+app.use("/api/homeAdd/getTopClubList", require("./routes/customerRouter"));
+
+app.use("/api/homeAdd/getCateClubList", require("./routes/customerRouter"));
+
+//서치 화면
+app.use("/api/search", require("./routes/searchPageRouter"));
+
+app.use("/api/search/selectSearchClub", require("./routes/searchPageRouter"));
 
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
