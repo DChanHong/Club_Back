@@ -13,6 +13,7 @@ const homeAddCtrl = {
       res.send(result);
     });
   },
+  // 카테고리별 동아리 정보 불러오기
   getCateClubList: async (req, res) => {
     const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_CATEGORY =?`;
     const SQLData = [req.query.data];

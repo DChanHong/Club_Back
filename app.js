@@ -53,6 +53,19 @@ app.use("/api/search", require("./routes/searchPageRouter"));
 
 app.use("/api/search/selectSearchClub", require("./routes/searchPageRouter"));
 
+// 동아리 입장하기 화면
+app.use("/api/clubDetail", require("./routes/clubDetailRouter"));
+
+app.use(
+  "/api/clubDetail/getClubDetailUserList",
+  require("./routes/clubDetailRouter")
+);
+app.use(
+  "/api/clubDetail/getClubDetailInfo",
+  require("./routes/clubDetailRouter")
+);
+app.use("/api/clubDetail/getClubText", require("./routes/clubDetailRouter"));
+
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
 });
