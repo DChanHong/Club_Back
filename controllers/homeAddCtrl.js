@@ -23,5 +23,13 @@ const homeAddCtrl = {
       res.send(result);
     });
   },
+  getSliderModalInfo: async (req, res) => {
+    const selectSQL = `SELECT C_IDX,U_IDX,C_CATEGORY,C_CATE_DETAIL,C_NAME,C_INTRO, C_AREA,C_IMAGE FROM CLUB_TABLE WHERE C_IDX=?`;
+    const SQLdata = [req.query.data];
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
 };
 module.exports = homeAddCtrl;

@@ -1,4 +1,5 @@
 const clubDetailCtrl = require("../controllers/clubDetailCtrl");
+const hostCheck = require("../middleware/hostCheck");
 
 const router = require("express").Router();
 router.get("/getClubDetailUserList", clubDetailCtrl.getClubDetailUserList);

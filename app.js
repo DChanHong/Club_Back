@@ -48,6 +48,8 @@ app.use("/api/homeAdd/getTopClubList", require("./routes/customerRouter"));
 
 app.use("/api/homeAdd/getCateClubList", require("./routes/customerRouter"));
 
+app.use("/api/homeAdd/getSliderModalInfo", require("./routes/customerRouter"));
+
 //서치 화면
 app.use("/api/search", require("./routes/searchPageRouter"));
 
@@ -69,3 +71,8 @@ app.use("/api/clubDetail/getClubText", require("./routes/clubDetailRouter"));
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
 });
+
+app.get("/hello", (req, res) => {
+  res.send("world");
+});
+module.exports = app;

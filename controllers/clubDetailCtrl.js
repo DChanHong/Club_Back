@@ -1,5 +1,6 @@
 const connection = require("../dbConfig");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 
 const clubDetailCtrl = {
   //동아리 유저 참여자 정보 불러오기
@@ -9,7 +10,7 @@ const clubDetailCtrl = {
     FROM CLUB_TABLE T1
     JOIN ATTEND_USER_TABLE T2
     ON T1.C_IDX = T2.C_IDX
-    WHERE T2.C_IDX= 1) A
+    WHERE T2.C_IDX= ?) A
     JOIN USER_TABLE B
     ON A.U_IDX = B.U_IDX`;
     const SQLdata = [req.query.data];
@@ -30,13 +31,22 @@ const clubDetailCtrl = {
     });
   },
   getClubText: async (req, res) => {
-    const selectSQL = `SELECT C_TEXT FROM CLUB_TABLE WHERE C_IDX =?`;
+    // console.lo("일단 여기까지 옴");
+    const selectSQL = `SELECT C_TEXT ,U_IDX FROM CLUB_TABLE WHERE C_IDX =?`;
     const SQLdata = [req.query.data];
+
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.send(result);
     });
   },
+  // checkHost: async (req, res) => {
+  //   if (req.headers.cookie) {
+  //     const token = req.headers.cookie.split("accessToken=")[1];
+  //     const userEmail = jwt.verify(token, process.env.JWT_SECRET_KEY);
+  //   }
+  //   console.log(userEmail);
+  // },
 };
 
 module.exports = clubDetailCtrl;
