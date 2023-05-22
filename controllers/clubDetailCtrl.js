@@ -40,13 +40,47 @@ const clubDetailCtrl = {
       res.send(result);
     });
   },
-  // checkHost: async (req, res) => {
-  //   if (req.headers.cookie) {
-  //     const token = req.headers.cookie.split("accessToken=")[1];
-  //     const userEmail = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  //   }
-  //   console.log(userEmail);
-  // },
+  // 동아리 참여자인지 아인지 체크
+  clubJoinUserCheck: async (req, res) => {
+    // 동아리 참여자가 맞으면 U_IDX 존재 , 아니면 null값
+    const selectSQL = `SELECT *FROM ATTEND_USER_TABLE WHERE U_IDX =? AND C_IDX= ?`;
+
+    const SQLdata = [req.query.data, req.data.result[0].U_IDX];
+    // console.log(SQLdata);
+    // console.log(SQLdata);
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      else {
+        if (result.length === 1) {
+          res.json({ data: true });
+        } else {
+          res.json({ data: false });
+        }
+      }
+    });
+  },
+  // 동아리 참여하기
+  JoinClub: async (req, res) => {
+    const insertSQL = " INSERT INTO ATTEND_USER_TABLE VALUES(?,?)"; //C_IDX ,U_IDX
+    // console.log(req.data.result[0].U_IDX);
+    // console.log(req.body.data);
+    const insertData = [req.body.data, req.data.result[0].U_IDX];
+    connection.query(insertSQL, insertData, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  // 동아리 탈퇴하기
+  LeaveClub: async (req, res) => {
+    const deleteSQL =
+      "DELETE FROM ATTEND_USER_TABLE WHERE C_IDX =? AND U_IDX =?";
+    // console.log(req.body.data, req.data.result[0].U_IDX);
+    const SQLdata = [req.body.data, req.data.result[0].U_IDX];
+    connection.query(deleteSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
 };
 
 module.exports = clubDetailCtrl;

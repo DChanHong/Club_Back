@@ -20,7 +20,7 @@ const customerCtrl = {
     const IDcheckSQL = "SELECT U_EMAIL FROM USER_TABLE WHERE U_EMAIL=?";
     const { email } = req.body;
     const data = [email];
-    connection.query(IDcheckSQL, data, (error, result, rows) => {
+    connection.query(IDcheckSQL, data, (error, result) => {
       if (error) throw error;
       else {
         if (result.length === 0) {
@@ -38,21 +38,23 @@ const customerCtrl = {
   //로그인 창 ID PW 유효성 확인 후 쿠키 배송
   checkLogin: async (req, res) => {
     const checkLoginSQL =
-      "SELECT * FROM USER_TABLE WHERE U_EMAIL=? AND U_PASSWORD =?";
+      "SELECT U_IDX,U_EMAIL FROM USER_TABLE WHERE U_EMAIL=? AND U_PASSWORD =?";
     const { email, password } = req.body;
     const data = [email, password];
     // console.log(data);
 
-    connection.query(checkLoginSQL, data, (error, result, rows) => {
+    connection.query(checkLoginSQL, data, (error, result, rows, field) => {
       // console.log(result);
       if (error) throw error;
       else {
         if (result.length === 1) {
           try {
             //access Token 발급
+            console.log(result);
             const accessToken = jwt.sign(
               {
                 email: email,
+                result,
               },
               process.env.JWT_SECRET_KEY,
               {
@@ -60,6 +62,7 @@ const customerCtrl = {
                 issuer: "hong",
               }
             );
+            // console.log(accessToken);
             res.cookie("accessToken", accessToken, {
               secure: false,
               httpOnly: true,

@@ -4,7 +4,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
+const { swaggerUi, specs } = require("./swagger/swagger");
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 dotenv.config();
 
 app.use(
@@ -68,6 +70,15 @@ app.use(
 );
 app.use("/api/clubDetail/getClubText", require("./routes/clubDetailRouter"));
 
+app.use(
+  "/api/clubDetail/clubJoinUserCheck",
+  require("./routes/clubDetailRouter")
+);
+
+app.use("/api/clubDetail/JoinClub", require("./routes/clubDetailRouter"));
+
+app.use("/api/clubDetail/LeaveClub", require("./routes/clubDetailRouter"));
+
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
 });
@@ -75,4 +86,5 @@ app.listen(PORT, () => {
 app.get("/hello", (req, res) => {
   res.send("world");
 });
+
 module.exports = app;
