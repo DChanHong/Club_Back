@@ -16,7 +16,7 @@ const router = require("express").Router();
  *    get:
  *      summary: "동아리 제목 검색"
  *      description: "Get 방식으로 header에 검색 정보를 받음"
- *      tags: [Users]
+ *      tags: [search]
  *      responses:
  *        "200":
  *          description: 검새된 동아리 정보

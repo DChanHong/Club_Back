@@ -50,7 +50,7 @@ const customerCtrl = {
         if (result.length === 1) {
           try {
             //access Token 발급
-            console.log(result);
+            // console.log(result);
             const accessToken = jwt.sign(
               {
                 email: email,
@@ -95,7 +95,7 @@ const customerCtrl = {
   },
   uploadImage: async (req, res) => {
     const updateUserImageSQL = `UPDATE USER_TABLE SET U_IMAGE =? where U_EMAIL=?`;
-    console.log(req.file.originalname);
+    // console.log(req.file.originalname);
     const SQLdata = [req.file.originalname, req.email];
     connection.query(updateUserImageSQL, SQLdata, (error, result) => {
       if (error) throw error;

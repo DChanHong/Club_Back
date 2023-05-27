@@ -43,11 +43,10 @@ const clubDetailCtrl = {
   // 동아리 참여자인지 아인지 체크
   clubJoinUserCheck: async (req, res) => {
     // 동아리 참여자가 맞으면 U_IDX 존재 , 아니면 null값
-    const selectSQL = `SELECT *FROM ATTEND_USER_TABLE WHERE U_IDX =? AND C_IDX= ?`;
+    const selectSQL = `SELECT *FROM ATTEND_USER_TABLE WHERE C_IDX= ? AND U_IDX =? `;
 
-    const SQLdata = [req.query.data, req.data.result[0].U_IDX];
-    // console.log(SQLdata);
-    // console.log(SQLdata);
+    const SQLdata = [Number(req.query.data), req.data.result[0].U_IDX];
+
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
       else {
@@ -77,6 +76,34 @@ const clubDetailCtrl = {
     // console.log(req.body.data, req.data.result[0].U_IDX);
     const SQLdata = [req.body.data, req.data.result[0].U_IDX];
     connection.query(deleteSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  // 동아리 일정 생성하기
+  makeClubSchedule: async (req, res) => {
+    const insertSQL = `INSERT INTO CLUB_SCHEDULE_TABLE(U_IDX,C_IDX,S_DATE,S_HEAD,S_SUBH) VALUES (?,?,?,?,?)`;
+
+    const SQLdata = [
+      req.data.result[0].U_IDX,
+      Number(req.body.C_IDX),
+      req.body.S_DATE,
+      req.body.S_HEAD,
+      req.body.S_SUBH,
+    ];
+    // console.log(SQLdata);
+    connection.query(insertSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+
+  // 동아리 일정 불러오기
+  callClubSchedule: async (req, res) => {
+    const selectSQL = `SELECT *FROM CLUB_SCHEDULE_TABLE WHERE C_IDX = ?`;
+    const SQLdata = [req.query.C_IDX];
+    // console.log(SQLdata);
+    connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.send(result);
     });

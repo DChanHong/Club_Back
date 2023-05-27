@@ -79,6 +79,16 @@ app.use("/api/clubDetail/JoinClub", require("./routes/clubDetailRouter"));
 
 app.use("/api/clubDetail/LeaveClub", require("./routes/clubDetailRouter"));
 
+app.use(
+  "/api/clubDetail/makeClubSchedule",
+  require("./routes/clubDetailRouter")
+);
+
+app.use(
+  "/api/clubDetail/callClubSchedule",
+  require("./routes/clubDetailRouter")
+);
+
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
 });
