@@ -8,6 +8,7 @@ const authCheck = require("../middleware/authCheck");
 router.post("/", customerCtrl.insertCustomer);
 router.post("/checkID", customerCtrl.checkID);
 router.post("/login", customerCtrl.checkLogin);
+router.post("/logout", customerCtrl.logout);
 // router.get("/accesstoken", customerCtrl.accessToken);
 
 // 마이페이지 -> 로그인 인증 필요

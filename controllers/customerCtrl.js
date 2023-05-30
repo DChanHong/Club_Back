@@ -102,6 +102,11 @@ const customerCtrl = {
       res.send(result);
     });
   },
+  logout: async (req, res) => {
+    // console.log(req.headers.cookie);
+    res.clearCookie(req.headers.cookie);
+    res.redirect("/");
+  },
 };
 
 module.exports = customerCtrl;

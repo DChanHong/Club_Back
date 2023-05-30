@@ -12,5 +12,7 @@ router.post("/LeaveClub", authCheck, clubDetailCtrl.LeaveClub);
 
 router.post("/makeClubSchedule", authCheck, clubDetailCtrl.makeClubSchedule);
 router.get("/callClubSchedule", clubDetailCtrl.callClubSchedule);
+router.get("/getContext", authCheck, clubDetailCtrl.getContext);
 
+router.post("/insertContext", authCheck, clubDetailCtrl.insertContext);
 module.exports = router;

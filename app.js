@@ -29,6 +29,7 @@ app.use("/api/customer", require("./routes/customerRouter"));
 app.use("/api/customer/checkID", require("./routes/customerRouter"));
 
 app.use("/api/customer/login", require("./routes/customerRouter"));
+// app.use("/api/customer/logout", require("./routes/customerRouter"));
 
 // 마이페이지
 app.use("/api/customer/getuserInfo", require("./routes/customerRouter"));
@@ -88,6 +89,10 @@ app.use(
   "/api/clubDetail/callClubSchedule",
   require("./routes/clubDetailRouter")
 );
+
+app.use("/api/clubDetail/getContext", require("./routes/clubDetailRouter"));
+
+app.use("/api/clubDetail/insertContext", require("./routes/clubDetailRouter"));
 
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);

@@ -43,7 +43,7 @@ const clubDetailCtrl = {
   // 동아리 참여자인지 아인지 체크
   clubJoinUserCheck: async (req, res) => {
     // 동아리 참여자가 맞으면 U_IDX 존재 , 아니면 null값
-    const selectSQL = `SELECT *FROM ATTEND_USER_TABLE WHERE C_IDX= ? AND U_IDX =? `;
+    const selectSQL = `SELECT *FROM ATTEND_USER_TABLE WHERE C_IDX=? AND U_IDX =? `;
 
     const SQLdata = [Number(req.query.data), req.data.result[0].U_IDX];
 
@@ -100,10 +100,42 @@ const clubDetailCtrl = {
 
   // 동아리 일정 불러오기
   callClubSchedule: async (req, res) => {
-    const selectSQL = `SELECT *FROM CLUB_SCHEDULE_TABLE WHERE C_IDX = ?`;
+    const selectSQL = ` 
+    SELECT *FROM CLUB_SCHEDULE_TABLE WHERE C_IDX = ? 
+    ORDER BY S_DATE ASC;`;
     const SQLdata = [req.query.C_IDX];
     // console.log(SQLdata);
     connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  // 댓글불러오기
+  getContext: async (req, res) => {
+    const selectSQL = `SELECT T1.S_IDX , T1.U_IDX, T1.CO_CONTEXT ,T2.U_NAME FROM
+    (SELECT *FROM CLUB_SCHEDULE_CONTEXT_TABLE WHERE S_IDX =?) T1 
+    JOIN USER_TABLE T2 
+    WHERE T1.U_IDX = T2.U_IDX`;
+    const SQLdata = [req.query.S_IDX];
+    // console.log(SQLdata);
+
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+      // console.log(result);
+    });
+  },
+  //댓글 입력
+  insertContext: async (req, res) => {
+    // console.log(req.data.result[0].U_IDX, req.body);
+    const insertSQL =
+      "INSERT INTO CLUB_SCHEDULE_CONTEXT_TABLE(S_IDX,U_IDX,CO_CONTEXT) VALUES(?,?,?)";
+    const SQLdata = [
+      req.body.S_IDX.S_IDX,
+      req.data.result[0].U_IDX,
+      req.body.CO_CONTEXT,
+    ];
+    connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.send(result);
     });
