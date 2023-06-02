@@ -27,6 +27,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!  commit 됐는가???/");
 });
 
+app.get("/test", (req, res) => {
+  res.send("Hello World!  commit 됐는가???/");
+});
+
 // router에 있는 customerRouter에서 customer DB를 잘 보내줄 예정이다.
 app.use("/api/customer", require("./routes/customerRouter"));
 
