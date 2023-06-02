@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/test", (req, res) => {
-  res.send("Hello World!  commit 됐는가???/");
+  res.send("Hello World!  test 완료");
 });
 
 // router에 있는 customerRouter에서 customer DB를 잘 보내줄 예정이다.
