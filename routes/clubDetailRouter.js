@@ -11,8 +11,13 @@ router.post("/JoinClub", authCheck, clubDetailCtrl.JoinClub);
 router.post("/LeaveClub", authCheck, clubDetailCtrl.LeaveClub);
 
 router.post("/makeClubSchedule", authCheck, clubDetailCtrl.makeClubSchedule);
-router.get("/callClubSchedule", clubDetailCtrl.callClubSchedule);
+router.get("/callClubSchedule", authCheck, clubDetailCtrl.callClubSchedule);
 router.get("/getContext", authCheck, clubDetailCtrl.getContext);
 
+router.get("/getMyIdx", authCheck, clubDetailCtrl.getMyIdx);
+
 router.post("/insertContext", authCheck, clubDetailCtrl.insertContext);
+router.get("/getHostInfo", clubDetailCtrl.getHostInfo);
+
+router.post("/deletSchedule", clubDetailCtrl.deletSchedule);
 module.exports = router;

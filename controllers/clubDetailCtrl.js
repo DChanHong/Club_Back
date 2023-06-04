@@ -101,8 +101,10 @@ const clubDetailCtrl = {
   // 동아리 일정 불러오기
   callClubSchedule: async (req, res) => {
     const selectSQL = ` 
-    SELECT *FROM CLUB_SCHEDULE_TABLE WHERE C_IDX = ? 
-    ORDER BY S_DATE ASC;`;
+    SELECT T1.S_IDX,T1.S_DATE,T1.S_HEAD,T1.S_SUBH,T1.S_LIKE,T1.S_NOW, T2.U_IDX, T2.U_NAME ,T2.U_IMAGE FROM
+    (SELECT *FROM CLUB_SCHEDULE_TABLE WHERE C_IDX=?) T1
+    JOIN USER_TABLE T2 WHERE T1.U_IDX = T2.U_IDX
+`;
     const SQLdata = [req.query.C_IDX];
     // console.log(SQLdata);
     connection.query(selectSQL, SQLdata, (error, result) => {
@@ -138,6 +140,33 @@ const clubDetailCtrl = {
     connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.send(result);
+    });
+  },
+  // 호스트 정보 불러오기
+  getHostInfo: async (req, res) => {
+    // const data = req.query;
+    // console.log(data);
+    const selectSQL =
+      "SELECT T2.U_IDX ,T2.U_NAME, T2.U_IMAGE FROM (SELECT U_IDX FROM CLUB_TABLE WHERE C_IDX=?) T1 JOIN USER_TABLE T2 WHERE T1.U_IDX = T2.U_IDX";
+    const SQLdata = [req.query.C_IDX];
+
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  // 내 유저IDX 불러오기
+  getMyIdx: async (req, res) => {
+    const data = req.data.result[0].U_IDX;
+    res.json({ data: data });
+  },
+  deletSchedule: async (req, res) => {
+    const deleteSQL = "DELETE FROM CLUB_SCHEDULE_TABLE  WHERE S_IDX =?";
+    // console.log(req.body);
+    const SQLdata = [req.body.S_IDX];
+    connection.query(deleteSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.status(200).json({ data: "삭제 완료" });
     });
   },
 };
