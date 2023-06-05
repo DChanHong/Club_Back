@@ -108,6 +108,10 @@ app.use("/api/clubDetail/getMyIdx", require("./routes/clubDetailRouter"));
 
 app.use("/api/clubDetail/deletSchedule", require("./routes/clubDetailRouter"));
 
+app.use("/api/clubDetail/getUserName", require("./routes/clubDetailRouter"));
+
+app.use("/api/clubDetail/deleteContext", require("./routes/clubDetailRouter"));
+
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
 });

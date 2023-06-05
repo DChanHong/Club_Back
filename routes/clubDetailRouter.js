@@ -20,4 +20,8 @@ router.post("/insertContext", authCheck, clubDetailCtrl.insertContext);
 router.get("/getHostInfo", clubDetailCtrl.getHostInfo);
 
 router.post("/deletSchedule", clubDetailCtrl.deletSchedule);
+router.get("/getUserName", authCheck, clubDetailCtrl.getUserName);
+
+router.post("/deleteContext", authCheck, clubDetailCtrl.deleteContext);
+
 module.exports = router;

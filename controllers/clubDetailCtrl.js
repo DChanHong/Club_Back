@@ -114,7 +114,7 @@ const clubDetailCtrl = {
   },
   // 댓글불러오기
   getContext: async (req, res) => {
-    const selectSQL = `SELECT T1.S_IDX , T1.U_IDX, T1.CO_CONTEXT ,T2.U_NAME FROM
+    const selectSQL = `SELECT T1.CO_IDX, T1.S_IDX , T1.U_IDX, T1.CO_CONTEXT ,T2.U_NAME FROM
     (SELECT *FROM CLUB_SCHEDULE_CONTEXT_TABLE WHERE S_IDX =?) T1 
     JOIN USER_TABLE T2 
     WHERE T1.U_IDX = T2.U_IDX`;
@@ -167,6 +167,25 @@ const clubDetailCtrl = {
     connection.query(deleteSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.status(200).json({ data: "삭제 완료" });
+    });
+  },
+  getUserName: async (req, res) => {
+    const data = req.data.result[0].U_IDX;
+    const selectSQL = "SELECT U_NAME FROM USER_TABLE WHERE U_IDX=?";
+    const SQLdata = [data];
+
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  deleteContext: async (req, res) => {
+    const deleteSQL = "DELETE FROM CLUB_SCHEDULE_CONTEXT_TABLE WHERE CO_IDX=?";
+    const SQLdata = [req.body.CO_IDX];
+    console.log(SQLdata);
+    connection.query(deleteSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.status(200);
     });
   },
 };
