@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); //쿠키을 사용할 것이기에 사용
 
 app.get("/", (req, res) => {
-  res.send("Hello World!  commit 됐는가???/");
+  res.send("Hello World!  testetst???/");
 });
 
 app.get("/test", (req, res) => {
