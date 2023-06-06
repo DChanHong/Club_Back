@@ -66,6 +66,12 @@ app.use("/api/search", require("./routes/searchPageRouter"));
 
 app.use("/api/search/selectSearchClub", require("./routes/searchPageRouter"));
 
+//카테고리 서치
+app.use(
+  "/api/search/selcectCategoryClub",
+  require("./routes/searchPageRouter")
+);
+
 // 동아리 입장하기 화면
 app.use("/api/clubDetail", require("./routes/clubDetailRouter"));
 

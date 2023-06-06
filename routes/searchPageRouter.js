@@ -35,5 +35,6 @@ const router = require("express").Router();
  *                          ]
  */
 router.get("/selectSearchClub", searchPageCtrl.selectSearchClub);
+router.get("/selcectCategoryClub", searchPageCtrl.selcectCategoryClub);
 
 module.exports = router;
