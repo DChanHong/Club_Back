@@ -139,7 +139,10 @@ const clubDetailCtrl = {
     ];
     connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      else {
+        console.log(result.insertId);
+        res.status(200).json({ id: result.insertId });
+      }
     });
   },
   // 호스트 정보 불러오기

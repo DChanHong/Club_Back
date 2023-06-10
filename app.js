@@ -31,6 +31,10 @@ app.get("/test", (req, res) => {
   res.send("Hello World!  test 완료");
 });
 
+app.get("/api/test", (req, res) => {
+  res.send("Hello World!  testetst???/");
+});
+
 // router에 있는 customerRouter에서 customer DB를 잘 보내줄 예정이다.
 app.use("/api/customer", require("./routes/customerRouter"));
 
