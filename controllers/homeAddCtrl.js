@@ -23,10 +23,28 @@ const homeAddCtrl = {
       res.send(result);
     });
   },
+  //인기리스트 카루셀
   getSliderModalInfo: async (req, res) => {
     const selectSQL = `SELECT C_IDX,U_IDX,C_CATEGORY,C_CATE_DETAIL,C_NAME,C_INTRO, C_AREA,C_IMAGE FROM CLUB_TABLE WHERE C_IDX=?`;
     const SQLdata = [req.query.data];
     connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  // 동아리 생성
+  insertNewClubInfo: async (req, res) => {
+    const insertSQL = `INSERT INTO CLUB_TABLE(U_IDX,C_CATEGORY,C_CATE_DETAIL,C_NAME,C_INTRO,C_AREA) VALUES(?,?,?,?,?,?)`;
+    const SQLdata = [
+      req.data.result[0].U_IDX,
+      req.body.C_CATEGORY,
+      req.body.C_CATE_DETAIL,
+      req.body.C_NAME,
+      req.body.C_INTRO,
+      req.body.C_AREA,
+    ];
+    // console.log(req.body);
+    connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.send(result);
     });
