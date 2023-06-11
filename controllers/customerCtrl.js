@@ -38,9 +38,11 @@ const customerCtrl = {
   //로그인 창 ID PW 유효성 확인 후 쿠키 배송
   checkLogin: async (req, res) => {
     const checkLoginSQL =
-      "SELECT U_IDX,U_EMAIL FROM USER_TABLE WHERE U_EMAIL=? AND U_PASSWORD =?";
+      "SELECT U_IDX,U_EMAIL FROM USER_TABLE WHERE U_EMAIL=? AND U_PASSWORD =? AND U_WITHDRAWAL=?";
+    const withCheck = "false";
     const { email, password } = req.body;
-    const data = [email, password];
+
+    const data = [email, password, withCheck];
     // console.log(data);
 
     connection.query(checkLoginSQL, data, (error, result, rows, field) => {

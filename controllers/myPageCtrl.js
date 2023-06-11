@@ -30,6 +30,15 @@ const myPageCtrl = {
       res.send(result);
     });
   },
+  //회원 탈퇴하기
+  withdrawalUser: async (req, res) => {
+    const updateSQL = `UPDATE USER_TABLE SET U_WITHDRAWAL = 'true' WHERE U_IDX=?`;
+    const data = [req.data.result[0].U_IDX];
+    connection.query(updateSQL, data, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
 };
 
 module.exports = myPageCtrl;

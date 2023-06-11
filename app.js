@@ -44,6 +44,12 @@ app.use("/api/customer/login", require("./routes/customerRouter"));
 // app.use("/api/customer/logout", require("./routes/customerRouter"));
 
 // 마이페이지
+
+app.use("/api/mypage", require("./routes/myPageRouter"));
+
+app.use("/api/mypage/withdrawalUser", require("./routes/myPageRouter"));
+
+/* 고쳐야 될 것 */
 app.use("/api/customer/getuserInfo", require("./routes/customerRouter"));
 app.use(
   "api/customer/get/getMyAttClubList",
