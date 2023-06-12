@@ -71,6 +71,8 @@ app.use("/api/homeAdd/getCateClubList", require("./routes/customerRouter"));
 
 app.use("/api/homeAdd/getSliderModalInfo", require("./routes/customerRouter"));
 
+app.use("/api/homeAdd/insertNewClubInfo", require("./routes/customerRouter"));
+
 //서치 화면
 app.use("/api/search", require("./routes/searchPageRouter"));
 
