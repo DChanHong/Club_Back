@@ -130,6 +130,12 @@ app.use("/api/clubDetail/getUserName", require("./routes/clubDetailRouter"));
 
 app.use("/api/clubDetail/deleteContext", require("./routes/clubDetailRouter"));
 
+app.use("/api/clubDetail/selectNotice", require("./routes/clubDetailRouter"));
+
+app.use("/api/clubDetail/selectHost", require("./routes/clubDetailRouter"));
+
+app.use("api/clubDetail/updateNotice", require("./routes/clubDetailRouter"));
+
 app.listen(PORT, () => {
   console.log(`server is start on ${PORT}`);
 });

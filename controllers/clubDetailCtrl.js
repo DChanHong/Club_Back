@@ -191,6 +191,45 @@ const clubDetailCtrl = {
       res.status(200);
     });
   },
+  // 공지 불러오기
+  selectNotice: async (req, res) => {
+    const selectSQL = "SELECT C_TEXT FROM CLUB_TABLE WHERE C_IDX =?";
+    const SQLdata = [req.query.C_IDX];
+    // console.log(SQLdata);
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  //호스트 불러오기
+  selectHost: async (req, res) => {
+    const selectSQL = "SELECT * FROM CLUB_TABLE WHERE C_IDX =? AND U_IDX=?";
+    const SQLdata = [req.query.data.data, req.data.result[0].U_IDX];
+
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      else {
+        if (result.length > 0) {
+          res.status(200).json({ data: "host" });
+        } else {
+          res.status(200).json({ data: "NO" });
+        }
+      }
+    });
+  },
+  // Notice 업데이트
+  updateNotice: async (req, res) => {
+    const updateSQL = "UPDATE CLUB_TABLE SET C_TEXT=? WHERE C_IDX=?";
+
+    const SQLdata = [req.query.C_TEXT, req.query.C_IDX];
+
+    connection.query(updateSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      else {
+        res.status(200).json({ data: "update Success" });
+      }
+    });
+  },
 };
 
 module.exports = clubDetailCtrl;

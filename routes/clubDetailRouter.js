@@ -23,5 +23,9 @@ router.post("/deletSchedule", clubDetailCtrl.deletSchedule);
 router.get("/getUserName", authCheck, clubDetailCtrl.getUserName);
 
 router.post("/deleteContext", authCheck, clubDetailCtrl.deleteContext);
+router.get("/selectNotice", authCheck, clubDetailCtrl.selectNotice);
+router.get("/selectHost", authCheck, clubDetailCtrl.selectHost);
+
+router.get("/updateNotice", clubDetailCtrl.updateNotice);
 
 module.exports = router;
