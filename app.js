@@ -11,8 +11,8 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "https://club-front-web.vercel.app/",
-    // origin: "https://club-front.vercel.app/",
+    // origin: "http://localhost:3000",
+    origin: "https://club-front.vercel.app/",
     methods: ["GET", "POST"],
     credentials: true,
   })
