@@ -222,7 +222,7 @@ const clubDetailCtrl = {
     const updateSQL = "UPDATE CLUB_TABLE SET C_TEXT=? WHERE C_IDX=?";
 
     const SQLdata = [req.query.C_TEXT, req.query.C_IDX];
-
+    // console.log(req.query);
     connection.query(updateSQL, SQLdata, (error, result) => {
       if (error) throw error;
       else {
