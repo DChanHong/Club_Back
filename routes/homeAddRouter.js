@@ -9,4 +9,5 @@ router.get("/getCateClubList", homeAddCtrl.getCateClubList);
 router.get("/getSliderModalInfo", homeAddCtrl.getSliderModalInfo);
 
 router.post("/insertNewClubInfo", authCheck, homeAddCtrl.insertNewClubInfo);
+router.get("/getAllCateClub", homeAddCtrl.getAllCateClub);
 module.exports = router;

@@ -15,7 +15,7 @@ const homeAddCtrl = {
   },
   // 카테고리별 동아리 정보 불러오기
   getCateClubList: async (req, res) => {
-    const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_CATEGORY =?`;
+    const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_CATEGORY =? ORDER BY RAND() LIMIT 6`;
     const SQLData = [req.query.data];
     // console.log(SQLData);
     connection.query(selectSQL, SQLData, (error, result) => {
@@ -45,6 +45,15 @@ const homeAddCtrl = {
     ];
     // console.log(req.body);
     connection.query(insertSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    });
+  },
+  getAllCateClub: async (req, res) => {
+    const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_CATEGORY =? ORDER BY RAND() LIMIT 6`;
+    const SQLData = [req.query.data];
+    // console.log(SQLData);
+    connection.query(selectSQL, SQLData, (error, result) => {
       if (error) throw error;
       res.send(result);
     });
