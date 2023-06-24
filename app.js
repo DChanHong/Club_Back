@@ -100,7 +100,7 @@ app.use("/api/club/user/join-check", require("./routes/clubDetailRouter"));
 
 app.use("/api/club/user/join-club", require("./routes/clubDetailRouter"));
 
-app.use("/api/club/leave-club", require("./routes/clubDetailRouter"));
+app.use("/api/club/delete/leave-club", require("./routes/clubDetailRouter"));
 
 app.use("/api/club/i-schedule", require("./routes/clubDetailRouter"));
 
@@ -117,11 +117,14 @@ app.use("/api/club/host/information", require("./routes/clubDetailRouter"));
 
 app.use("/api/club/u-idx", require("./routes/clubDetailRouter"));
 
-app.use("/api/club/d-schedule", require("./routes/clubDetailRouter"));
+app.use("/api/club/delete/schedule", require("./routes/clubDetailRouter"));
 
 app.use("/api/club/my-name", require("./routes/clubDetailRouter"));
 
-app.use("/api/club/d-schedule/context", require("./routes/clubDetailRouter"));
+app.use(
+  "/api/club/delete/schedule/context",
+  require("./routes/clubDetailRouter")
+);
 
 app.use("/api/club/notice/text", require("./routes/clubDetailRouter"));
 

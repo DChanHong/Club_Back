@@ -22,7 +22,7 @@ router.post("/user/join-club", authCheck, clubDetailCtrl.JoinClub);
 // -> 클럽에 가입한다. + 참여리스트에 추가해준다. INSERT /JoinClub
 // /user/join-club
 
-router.post("/leave-club", authCheck, clubDetailCtrl.LeaveClub);
+router.delete("/delete/leave-club", authCheck, clubDetailCtrl.LeaveClub);
 // -> 클럽 탈퇴한다. DELETE / LeaveClub
 // -> /leave-club
 
@@ -54,7 +54,7 @@ router.get("/host/information", clubDetailCtrl.getHostInfo);
 // -> 클럽의 호스트정보를 불러온다. SELECT / getHostInfo
 // /host/information
 
-router.post("/d-schedule", clubDetailCtrl.deletSchedule);
+router.delete("/delete/schedule", clubDetailCtrl.deletSchedule);
 // -> 클럽에 등록된 일정을 삭제한다. DELETE / deletSchedule
 // /d-schedule/
 
@@ -62,9 +62,13 @@ router.get("/my-name", authCheck, clubDetailCtrl.getUserName);
 // -> 쿠키를 이용해 로그인된 내 이름을 가져온다. SELECT / getUserName
 // -> /my-name
 
-router.post("/d-schedule/context", authCheck, clubDetailCtrl.deleteContext);
+router.delete(
+  "/delete/schedule/context",
+  authCheck,
+  clubDetailCtrl.deleteContext
+);
 // -> 일정에 등록된 댓글을 샂게한다. DELETE / deleteContext
-// -> /d-schedule/context
+// -> /delete/schedule/context
 
 router.get("/notice/text", authCheck, clubDetailCtrl.selectNotice);
 // -> 공지사항을 불러온다 . SELECT / selectNotice
@@ -74,7 +78,7 @@ router.get("/host/check-info", authCheck, clubDetailCtrl.selectHost);
 // -> 내가 로그인한 아이디의 토큰을 보내서 host인지 아닌지 확인해서 보내준다. SELECT / selectHost
 // /host/check-info
 
-router.get("/notice/host/text", clubDetailCtrl.updateNotice);
+router.put("/notice/host/text", clubDetailCtrl.updateNotice);
 // -> 클럽에 방장이 공지사항을 업데이트한다. UPDATE /  updateNotice
 // /notice/host/text
 

@@ -19,7 +19,7 @@ const clubDetailCtrl = {
       if (error) {
         throw error;
       }
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   getClubDetailInfo: async (req, res) => {
@@ -27,7 +27,7 @@ const clubDetailCtrl = {
     const SQLdata = [req.query.data];
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   getClubText: async (req, res) => {
@@ -37,7 +37,7 @@ const clubDetailCtrl = {
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 동아리 참여자인지 아인지 체크
@@ -51,9 +51,9 @@ const clubDetailCtrl = {
       if (error) throw error;
       else {
         if (result.length === 1) {
-          res.json({ data: true });
+          res.status(200).json({ data: true });
         } else {
-          res.json({ data: false });
+          res.status(200).json({ data: false });
         }
       }
     });
@@ -66,7 +66,7 @@ const clubDetailCtrl = {
     const insertData = [req.body.data, req.data.result[0].U_IDX];
     connection.query(insertSQL, insertData, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 동아리 탈퇴하기
@@ -74,10 +74,11 @@ const clubDetailCtrl = {
     const deleteSQL =
       "DELETE FROM ATTEND_USER_TABLE WHERE C_IDX =? AND U_IDX =?";
     // console.log(req.body.data, req.data.result[0].U_IDX);
+    console.log(req.body.data);
     const SQLdata = [req.body.data, req.data.result[0].U_IDX];
     connection.query(deleteSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 동아리 일정 생성하기
@@ -94,7 +95,7 @@ const clubDetailCtrl = {
     // console.log(SQLdata);
     connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
 
@@ -109,7 +110,7 @@ const clubDetailCtrl = {
     // console.log(SQLdata);
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 댓글불러오기
@@ -123,7 +124,7 @@ const clubDetailCtrl = {
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
       // console.log(result);
     });
   },
@@ -155,13 +156,13 @@ const clubDetailCtrl = {
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 내 유저IDX 불러오기
   getMyIdx: async (req, res) => {
     const data = req.data.result[0].U_IDX;
-    res.json({ data: data });
+    res.status(200).json({ data: data });
   },
   deletSchedule: async (req, res) => {
     const deleteSQL = "DELETE FROM CLUB_SCHEDULE_TABLE  WHERE S_IDX =?";
@@ -179,7 +180,7 @@ const clubDetailCtrl = {
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   deleteContext: async (req, res) => {
@@ -198,7 +199,7 @@ const clubDetailCtrl = {
     // console.log(SQLdata);
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   //호스트 불러오기
@@ -221,8 +222,8 @@ const clubDetailCtrl = {
   updateNotice: async (req, res) => {
     const updateSQL = "UPDATE CLUB_TABLE SET C_TEXT=? WHERE C_IDX=?";
 
-    const SQLdata = [req.query.C_TEXT, req.query.C_IDX];
-    // console.log(req.query);
+    const SQLdata = [req.body.params.C_TEXT, req.body.params.C_IDX];
+    console.log(SQLdata);
     connection.query(updateSQL, SQLdata, (error, result) => {
       if (error) throw error;
       else {
