@@ -10,7 +10,7 @@ const homeAddCtrl = {
     ORDER BY T2.TOP_CLUB DESC LIMIT 10`;
     connection.query(selectSQL, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 카테고리별 동아리 정보 불러오기
@@ -20,7 +20,7 @@ const homeAddCtrl = {
     // console.log(SQLData);
     connection.query(selectSQL, SQLData, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   //인기리스트 카루셀
@@ -29,7 +29,7 @@ const homeAddCtrl = {
     const SQLdata = [req.query.data];
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 동아리 생성
@@ -46,17 +46,17 @@ const homeAddCtrl = {
     // console.log(req.body);
     connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
-  getAllCateClub: async (req, res) => {
-    const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_CATEGORY =? ORDER BY RAND() LIMIT 6`;
-    const SQLData = [req.query.data];
-    // console.log(SQLData);
-    connection.query(selectSQL, SQLData, (error, result) => {
-      if (error) throw error;
-      res.send(result);
-    });
-  },
+  // getAllCateClub: async (req, res) => {
+  //   const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_CATEGORY =? ORDER BY RAND() LIMIT 6`;
+  //   const SQLData = [req.query.data];
+  //   // console.log(SQLData);
+  //   connection.query(selectSQL, SQLData, (error, result) => {
+  //     if (error) throw error;
+  //     res.send(result);
+  //   });
+  // },
 };
 module.exports = homeAddCtrl;

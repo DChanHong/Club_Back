@@ -67,7 +67,7 @@ server.listen(PORT, () => {
   console.log(`listening socket on ${PORT}`);
 });
 
-//////////////////
+///----------------------------------------------------------
 
 app.get("/", (req, res) => {
   res.send("Hello World!  testetst???/");
@@ -80,114 +80,119 @@ app.get("/test", (req, res) => {
 app.get("/api/test", (req, res) => {
   res.send("Hello World!  testetst???/");
 });
-
-// router에 있는 customerRouter에서 customer DB를 잘 보내줄 예정이다.
-app.use("/api/customer", require("./routes/customerRouter"));
-
-app.use("/api/customer/checkID", require("./routes/customerRouter"));
-
-app.use("/api/customer/login", require("./routes/customerRouter"));
-// app.use("/api/customer/logout", require("./routes/customerRouter"));
-
-// 마이페이지
-
-app.use("/api/mypage", require("./routes/myPageRouter"));
-
-app.use("/api/mypage/withdrawalUser", require("./routes/myPageRouter"));
-
-/* 고쳐야 될 것 */
-app.use("/api/customer/getuserInfo", require("./routes/customerRouter"));
-app.use(
-  "api/customer/get/getMyAttClubList",
-  require("./routes/customerRouter")
-);
-app.use("/api/customer/getMyHostClubList", require("./routes/customerRouter"));
-
 //이미지 업로드
 app.use("/api/image", express.static("image"));
 
 app.use("/api/customer/upload", require("./routes/customerRouter"));
+///----------------------------------------------------------
 
-//홈 화면
-app.use("/api/homeAdd", require("./routes/homeAddRouter")); // 이게 homeAddRouter 경로 설정을 해둔거임
+/* 클럽 임장한 화면 정리 */
+app.use("/api/club", require("./routes/clubDetailRouter"));
+// club
+app.use("/api/club/user/entrance/list", require("./routes/clubDetailRouter"));
+app.use(
+  "/api/club/information/title/image/etc",
+  require("./routes/clubDetailRouter")
+);
+app.use("/api/club/information/notice", require("./routes/clubDetailRouter"));
 
-app.use("/api/homeAdd/getTopClubList", require("./routes/customerRouter"));
+app.use("/api/club/user/join-check", require("./routes/clubDetailRouter"));
 
-app.use("/api/homeAdd/getCateClubList", require("./routes/customerRouter"));
+app.use("/api/club/user/join-club", require("./routes/clubDetailRouter"));
 
-app.use("/api/homeAdd/getSliderModalInfo", require("./routes/customerRouter"));
+app.use("/api/club/leave-club", require("./routes/clubDetailRouter"));
 
-app.use("/api/homeAdd/insertNewClubInfo", require("./routes/customerRouter"));
+app.use("/api/club/i-schedule", require("./routes/clubDetailRouter"));
 
-app.use("/api/homeAdd/getAllCateClub", require("./routes/customerRouter"));
+app.use("/api/club/schedule/information", require("./routes/clubDetailRouter"));
 
+app.use(
+  "/api/club/schedule/information/context",
+  require("./routes/clubDetailRouter")
+);
+
+app.use("/api/club/i-shchedule/context", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/host/information", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/u-idx", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/d-schedule", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/my-name", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/d-schedule/context", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/notice/text", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/host/check-info", require("./routes/clubDetailRouter"));
+
+app.use("api/club/notice/host/text", require("./routes/clubDetailRouter"));
+/* 클럽 임장한 화면 정리 */
+//-------------------------------------------------
+
+/* 서치페이지 정리 */
 //서치 화면
-app.use("/api/search", require("./routes/searchPageRouter"));
+app.use("/api/search-page", require("./routes/searchPageRouter"));
 
-app.use("/api/search/selectSearchClub", require("./routes/searchPageRouter"));
-
-//카테고리 서치
 app.use(
-  "/api/search/selcectCategoryClub",
+  "/api/search-page/user/club/search-word/",
   require("./routes/searchPageRouter")
-);
-
-// 동아리 입장하기 화면
-app.use("/api/clubDetail", require("./routes/clubDetailRouter"));
+); //-> 검색어 서치
 
 app.use(
-  "/api/clubDetail/getClubDetailUserList",
-  require("./routes/clubDetailRouter")
-);
+  "/api/search-page/user/Category/club",
+  require("./routes/searchPageRouter")
+); // -> 카테고리 서치
+/* 서치페이지 정리 */
+
+/*  마이페이지 */
+app.use("/api/mypage", require("./routes/myPageRouter"));
+
+app.use("/api/mypage/user/withdrawal", require("./routes/myPageRouter"));
+
+app.use("/api/mypage/user/information", require("./routes/customerRouter"));
 app.use(
-  "/api/clubDetail/getClubDetailInfo",
-  require("./routes/clubDetailRouter")
+  "api/mypage/participation/club/list",
+  require("./routes/customerRouter")
 );
-app.use("/api/clubDetail/getClubText", require("./routes/clubDetailRouter"));
+app.use("/api/mypage/host/club/list", require("./routes/customerRouter"));
+
+/*  마이페이지 */
+
+/* 로그인 및 회원가입 */
+app.use("/api/customer", require("./routes/customerRouter"));
 
 app.use(
-  "/api/clubDetail/clubJoinUserCheck",
-  require("./routes/clubDetailRouter")
+  "/api/customer/user/data/injection",
+  require("./routes/customerRouter")
 );
 
-app.use("/api/clubDetail/JoinClub", require("./routes/clubDetailRouter"));
+app.use("/api/customer/check-id", require("./routes/customerRouter"));
 
-app.use("/api/clubDetail/LeaveClub", require("./routes/clubDetailRouter"));
+app.use("/api/customer/login", require("./routes/customerRouter"));
+
+app.use("/api/customer/logout", require("./routes/customerRouter"));
+/* 로그인 및 회원가입 */
+
+/* 홈 화면 */
+
+app.use("/api/home", require("./routes/homeAddRouter")); // 이게 homeAddRouter 경로 설정을 해둔거임
+
+app.use("/api/home/club/top/list", require("./routes/homeAddRouter"));
 
 app.use(
-  "/api/clubDetail/makeClubSchedule",
-  require("./routes/clubDetailRouter")
+  "/api/home/club/category/limit/list",
+  require("./routes/homeAddRouter")
 );
 
-app.use(
-  "/api/clubDetail/callClubSchedule",
-  require("./routes/clubDetailRouter")
-);
+app.use("/api/home/club/modal/information", require("./routes/homeAddRouter"));
 
-app.use("/api/clubDetail/getContext", require("./routes/clubDetailRouter"));
+app.use("/api/home/new-club", require("./routes/homeAddRouter"));
 
-app.use("/api/clubDetail/insertContext", require("./routes/clubDetailRouter"));
+// app.use("/api/home/getAllCateClub", require("./routes/homeAddRouter"));
 
-app.use("/api/clubDetail/getHostInfo", require("./routes/clubDetailRouter"));
-
-app.use("/api/clubDetail/getMyIdx", require("./routes/clubDetailRouter"));
-
-app.use("/api/clubDetail/deletSchedule", require("./routes/clubDetailRouter"));
-
-app.use("/api/clubDetail/getUserName", require("./routes/clubDetailRouter"));
-
-app.use("/api/clubDetail/deleteContext", require("./routes/clubDetailRouter"));
-
-app.use("/api/clubDetail/selectNotice", require("./routes/clubDetailRouter"));
-
-app.use("/api/clubDetail/selectHost", require("./routes/clubDetailRouter"));
-
-app.use("api/clubDetail/updateNotice", require("./routes/clubDetailRouter"));
-
-// app.listen(PORT, () => {
-//   console.log(`server is start on ${PORT}`);
-// });
-
+/* 홈 화면 */
 app.get("/hello", (req, res) => {
   res.send("world");
 });

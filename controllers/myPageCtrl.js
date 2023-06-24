@@ -14,7 +14,7 @@ const myPageCtrl = {
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   // 내가 방장인 동아리 리스트
@@ -27,7 +27,7 @@ const myPageCtrl = {
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
     });
   },
   //회원 탈퇴하기
@@ -36,7 +36,16 @@ const myPageCtrl = {
     const data = [req.data.result[0].U_IDX];
     connection.query(updateSQL, data, (error, result) => {
       if (error) throw error;
-      res.send(result);
+      res.status(200).send(result);
+    });
+  },
+  getUser: async (req, res) => {
+    const userInfoSQL =
+      "SELECT U_EMAIL ,U_NAME , U_GENDER,U_BIRTH,U_IMAGE FROM USER_TABLE WHERE U_EMAIL=? ";
+    const SQLdata = [req.email];
+    connection.query(userInfoSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.status(200).send(result); // 프론트로 rows를 다 보내주겠다.
     });
   },
 };

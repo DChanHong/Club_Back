@@ -1,21 +1,26 @@
 const customerCtrl = require("../controllers/customerCtrl");
-const myPageCtrl = require("../controllers/myPageCtrl");
+// const myPageCtrl = require("../controllers/myPageCtrl");
 
 const router = require("express").Router();
 const multer = require("multer");
 const authCheck = require("../middleware/authCheck");
 
-router.post("/", customerCtrl.insertCustomer);
-router.post("/checkID", customerCtrl.checkID);
+router.post("/user/data/injection", customerCtrl.insertCustomer);
+// 회원가입 데이터를 넣어준다.
+
+router.post("/check-id", customerCtrl.checkID);
+// 유저 id 확인해준다.
+
 router.post("/login", customerCtrl.checkLogin);
+// 유저가 로그인해서 토큰 발급해준다.
+
 router.post("/logout", customerCtrl.logout);
-// router.get("/accesstoken", customerCtrl.accessToken);
+//유저가 로그아웃한다.
 
 // 마이페이지 -> 로그인 인증 필요
 router.get("/getuserInfo", authCheck, customerCtrl.getUser);
-router.get("/getMyAttClubList", authCheck, myPageCtrl.getMyAttClubList);
-router.get("/getMyHostClubList", authCheck, myPageCtrl.getMyHostClubList);
 
+// ----------------------------------------
 //이미지 업로드
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
