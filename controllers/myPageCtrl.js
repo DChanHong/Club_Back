@@ -34,9 +34,11 @@ const myPageCtrl = {
   withdrawalUser: async (req, res) => {
     const updateSQL = `UPDATE USER_TABLE SET U_WITHDRAWAL = 'true' WHERE U_IDX=?`;
     const data = [req.data.result[0].U_IDX];
+    // console.log(data);
     connection.query(updateSQL, data, (error, result) => {
       if (error) throw error;
       res.status(200).send(result);
+      // res.clearCookie(req.headers.cookie).redirect("/");
     });
   },
   getUser: async (req, res) => {

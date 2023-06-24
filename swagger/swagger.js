@@ -8,7 +8,7 @@ const options = {
       version: "1.0.0",
       title: "club",
       description:
-        "프로젝트 설명 Node.js Swagger swagger-jsdoc 방식 Restfull API 클라이언트 UI",
+        "프로젝트 설명 Node.js Swagger swagger-jsdoc 방식 Restful API 클라이언트 UI",
     },
     servers: [
       {

@@ -80,10 +80,7 @@ app.get("/test", (req, res) => {
 app.get("/api/test", (req, res) => {
   res.send("Hello World!  testetst???/");
 });
-//이미지 업로드
-app.use("/api/image", express.static("image"));
 
-app.use("/api/customer/upload", require("./routes/customerRouter"));
 ///----------------------------------------------------------
 
 /* 클럽 임장한 화면 정리 */
@@ -176,6 +173,12 @@ app.use("/api/customer/check-id", require("./routes/customerRouter"));
 app.use("/api/customer/login", require("./routes/customerRouter"));
 
 app.use("/api/customer/logout", require("./routes/customerRouter"));
+
+/* 이미지 업로드 */
+app.use("/api/image", express.static("image"));
+
+app.use("/api/customer/upload", require("./routes/customerRouter"));
+/* 이미지 업로드 */
 /* 로그인 및 회원가입 */
 
 /* 홈 화면 */
