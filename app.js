@@ -43,11 +43,6 @@ const io = socketIO(server, {
     credentials: true,
   },
 });
-//emit
-io.on("send-message", (message) => {
-  console.log(message);
-  io.emit("message", message);
-});
 
 //io.on() 메소드로 클라이언트와 연결된 소켓 객체를 받아온다.
 io.on("connection", (socket) => {
@@ -55,7 +50,7 @@ io.on("connection", (socket) => {
   //이벤트 리스너 등록 (채팅 기능 )
   socket.on("chatting", (message) => {
     // console.log(message);
-    io.emit("chatting", message);
+    io.emit("message", message);
   });
 
   socket.on("disconnect", () => {

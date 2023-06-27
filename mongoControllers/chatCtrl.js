@@ -9,14 +9,14 @@ const insertChat = async (message) => {
     console.error("Error inserting message:", error);
   }
 };
-// const insertAllChat = async (message) => {
-//   try {
-//     const db = await connectDB();
-//     const result = await db.collection("messages").insertMany(message);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+const insertAllChat = async (message) => {
+  try {
+    const db = await connectDB();
+    // const result = await db.collection("messages").insertMany(message);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const selectAllChat = async (C_IDX) => {
   try {
@@ -33,4 +33,4 @@ const selectAllChat = async (C_IDX) => {
   }
 };
 
-module.exports = { insertChat, selectAllChat };
+module.exports = { insertChat, insertAllChat, selectAllChat };
