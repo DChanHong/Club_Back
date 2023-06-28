@@ -79,4 +79,6 @@ router.get("/user/club/search-word", searchPageCtrl.selectSearchClub);
  */
 router.get("/user/Category/club", searchPageCtrl.selcectCategoryClub);
 // -> 사이드바 클릭시 카테고리별 클럽을 보여준다.
+
+router.get("/get/user/category/page/club", searchPageCtrl.selectCategoryPage);
 module.exports = router;

@@ -139,6 +139,11 @@ app.use(
   "/api/search-page/user/Category/club",
   require("./routes/searchPageRouter")
 ); // -> 카테고리 서치
+
+app.use(
+  "/api/search-page/get/user/category/page/club",
+  require("./routes/searchPageRouter")
+);
 /* 서치페이지 정리 */
 
 /*  마이페이지 */

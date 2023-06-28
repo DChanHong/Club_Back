@@ -24,6 +24,17 @@ const searchPageCtrl = {
       res.status(200).send(result);
     });
   },
+  selectCategoryPage: async (req, res) => {
+    const OFFSET = (Number(req.query.pageNumber) - 1) * 6;
+    const SQLdata = [req.query.Category, OFFSET];
+    // console.log(SQLdata);
+    const selectSQL = `SELECT *FROM CLUB_TABLE WHERE C_CATEGORY =? ORDER BY C_IDX ASC LIMIT 6 OFFSET ?;`;
+
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      res.status(200).send(result);
+    });
+  },
 };
 
 module.exports = searchPageCtrl;
