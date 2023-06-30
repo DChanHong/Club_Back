@@ -123,6 +123,9 @@ app.use("/api/club/notice/text", require("./routes/clubDetailRouter"));
 app.use("/api/club/host/check-info", require("./routes/clubDetailRouter"));
 
 app.use("api/club/notice/host/text", require("./routes/clubDetailRouter"));
+
+app.use("/api/club/test/club", require("./routes/clubDetailRouter"));
+
 /* 클럽 임장한 화면 정리 */
 //-------------------------------------------------
 
@@ -144,6 +147,12 @@ app.use(
   "/api/search-page/get/user/category/page/club",
   require("./routes/searchPageRouter")
 );
+
+app.use(
+  "/api/search-page/get/user/category/page/total-club",
+  require("./routes/searchPageRouter")
+);
+
 /* 서치페이지 정리 */
 
 /*  마이페이지 */

@@ -231,6 +231,21 @@ const clubDetailCtrl = {
       }
     });
   },
+  //무한 스크롤 테스트용 쿼리
+  getClub: async (req, res) => {
+    const selectSQL =
+      "SELECT * FROM CLUB_TABLE ORDER BY C_IDX ASC LIMIT 3 OFFSET ?";
+    const pageData = Number(req.query.page);
+
+    const SQLdata = [pageData * 3];
+
+    connection.query(selectSQL, SQLdata, (error, result) => {
+      if (error) throw error;
+      else {
+        res.status(200).send(result);
+      }
+    });
+  },
 };
 
 module.exports = clubDetailCtrl;

@@ -82,4 +82,6 @@ router.put("/notice/host/text", clubDetailCtrl.updateNotice);
 // -> 클럽에 방장이 공지사항을 업데이트한다. UPDATE /  updateNotice
 // /notice/host/text
 
+router.get("/test/club", clubDetailCtrl.getClub);
+//infiniteScroll 테스트용 클럽데이터 가져오기
 module.exports = router;
