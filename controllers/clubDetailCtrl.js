@@ -141,7 +141,7 @@ const clubDetailCtrl = {
     connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
       else {
-        console.log(result.insertId);
+        // console.log(result.insertId);
         res.status(200).json({ id: result.insertId });
       }
     });
@@ -186,7 +186,7 @@ const clubDetailCtrl = {
   deleteContext: async (req, res) => {
     const deleteSQL = "DELETE FROM CLUB_SCHEDULE_CONTEXT_TABLE WHERE CO_IDX=?";
     const SQLdata = [req.body.CO_IDX];
-    // console.log(SQLdata);
+    console.log(SQLdata);
     connection.query(deleteSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.status(200);
