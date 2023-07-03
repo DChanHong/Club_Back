@@ -84,4 +84,6 @@ router.get("/get/user/category/page/club", searchPageCtrl.selectCategoryPage);
 
 // 전체 동아리 리스트 보기
 router.get("/get/user/category/page/total-club", searchPageCtrl.selectAllClub);
+
+router.get("/get/user/category/page/skeleton", searchPageCtrl.testSkeleton);
 module.exports = router;

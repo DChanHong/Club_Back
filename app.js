@@ -153,6 +153,11 @@ app.use(
   require("./routes/searchPageRouter")
 );
 
+app.use(
+  "/api/search-page/get/user/category/page/skeleton",
+  require("./routes/searchPageRouter")
+);
+
 /* 서치페이지 정리 */
 
 /*  마이페이지 */

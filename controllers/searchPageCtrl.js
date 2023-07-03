@@ -46,6 +46,15 @@ const searchPageCtrl = {
       res.status(200).send(result);
     });
   },
+
+  testSkeleton: async (req, res) => {
+    const selectSQL = "SELECT *FROM CLUB_TABLE ORDER BY C_IDX ASC LIMIT 10 ";
+
+    connection.query(selectSQL, (error, result) => {
+      if (error) throw error;
+      res.status(200).send(result);
+    });
+  },
 };
 
 module.exports = searchPageCtrl;
