@@ -61,8 +61,7 @@ const clubDetailCtrl = {
   // 동아리 참여하기
   JoinClub: async (req, res) => {
     const insertSQL = " INSERT INTO ATTEND_USER_TABLE VALUES(?,?)"; //C_IDX ,U_IDX
-    // console.log(req.data.result[0].U_IDX);
-    // console.log(req.body.data);
+
     const insertData = [req.body.data, req.data.result[0].U_IDX];
     connection.query(insertSQL, insertData, (error, result) => {
       if (error) throw error;
@@ -73,8 +72,7 @@ const clubDetailCtrl = {
   LeaveClub: async (req, res) => {
     const deleteSQL =
       "DELETE FROM ATTEND_USER_TABLE WHERE C_IDX =? AND U_IDX =?";
-    // console.log(req.body.data, req.data.result[0].U_IDX);
-    console.log(req.body.data);
+
     const SQLdata = [req.body.data, req.data.result[0].U_IDX];
     connection.query(deleteSQL, SQLdata, (error, result) => {
       if (error) throw error;
@@ -205,7 +203,8 @@ const clubDetailCtrl = {
   //호스트 불러오기
   selectHost: async (req, res) => {
     const selectSQL = "SELECT * FROM CLUB_TABLE WHERE C_IDX =? AND U_IDX=?";
-    const SQLdata = [req.query.data.data, req.data.result[0].U_IDX];
+
+    const SQLdata = [req.query.data, req.data.result[0].U_IDX];
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
@@ -223,7 +222,7 @@ const clubDetailCtrl = {
     const updateSQL = "UPDATE CLUB_TABLE SET C_TEXT=? WHERE C_IDX=?";
 
     const SQLdata = [req.body.params.C_TEXT, req.body.params.C_IDX];
-    console.log(SQLdata);
+
     connection.query(updateSQL, SQLdata, (error, result) => {
       if (error) throw error;
       else {
