@@ -11,7 +11,11 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "https://club-front-git-main-dchanhong.vercel.app",
+    origin: [
+      "http://localhost:3000",
+      "https://club-front-git-main-dchanhong.vercel.app",
+      "https://chanhong.site",
+    ],
     credentials: true,
   })
 );
@@ -35,10 +39,22 @@ const socketIO = require("socket.io");
 const server = http.createServer(app);
 
 // 서버에서 클라이언트와 WebSocket 연결을 수락
+// const io = socketIO(server, {
+//   cors: {
+//     // origin: "http://localhost:3000",
+//     origin: "https://chanhong.site/",
+//     credentials: true,
+//   },
+// });
+
 const io = socketIO(server, {
   cors: {
     // origin: "http://localhost:3000",
-    origin: "https://chanhong.site/",
+    origin: [
+      "https://chanhong.site",
+      "https://club-front-git-main-dchanhong.vercel.app",
+      "http://localhost:3000",
+    ],
     credentials: true,
   },
 });
