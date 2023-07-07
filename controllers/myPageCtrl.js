@@ -32,12 +32,12 @@ const myPageCtrl = {
   },
   //회원 탈퇴하기
   withdrawalUser: async (req, res) => {
-    const updateSQL = `UPDATE USER_TABLE SET U_WITHDRAWAL = 'true' WHERE U_IDX=?`;
-    const data = [req.data.result[0].U_IDX];
+    const updateSQL = `UPDATE USER_TABLE SET U_WITHDRAWAL = ? WHERE U_IDX=?`;
+    const data = ["true", req.data.result[0].U_IDX];
     // console.log(data);
     connection.query(updateSQL, data, (error, result) => {
       if (error) throw error;
-      res.status(200).send(result);
+      res.status(200).json({ data: "탈퇴 완료" });
       // res.clearCookie(req.headers.cookie).redirect("/");
     });
   },

@@ -28,7 +28,7 @@ const router = require("express").Router();
  *
  *      responses:
  *        "200":
- *          description: 검새된 동아리 정보
+ *          description: 검색된 동아리 정보
  *          content:
  *            application/json:
  *              schema:

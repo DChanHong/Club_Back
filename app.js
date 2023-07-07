@@ -11,8 +11,8 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    // origin: "https://club-front.vercel.app/",
+    // origin: "http://localhost:3000",
+    origin: "https://club-front.vercel.app/",
     // origin: "*",
     credentials: true,
   })
@@ -39,7 +39,8 @@ const server = http.createServer(app);
 // 서버에서 클라이언트와 WebSocket 연결을 수락
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: "https://chanhong.site/",
     credentials: true,
   },
 });
