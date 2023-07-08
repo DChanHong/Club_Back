@@ -11,11 +11,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://club-front.vercel.app/",
-      "https://chanhong.site",
-    ],
+    origin: ["http://localhost:3000", "https://club-front.vercel.app"],
     credentials: true,
   })
 );
@@ -52,7 +48,7 @@ const io = socketIO(server, {
     // origin: "http://localhost:3000",
     origin: [
       "https://chanhong.site",
-      "https://club-front-git-main-dchanhong.vercel.app",
+      "https://club-front.vercel.app",
       "http://localhost:3000",
     ],
     credentials: true,
