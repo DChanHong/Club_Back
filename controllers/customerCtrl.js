@@ -68,7 +68,7 @@ const customerCtrl = {
             );
             // console.log(accessToken);
             res.cookie("accessToken", accessToken, {
-              domain: "club-front.vercel.app",
+              // domain: "club-front.vercel.app",
               path: "/",
               secure: true,
               httpOnly: true,
