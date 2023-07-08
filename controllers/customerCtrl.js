@@ -53,7 +53,7 @@ const customerCtrl = {
           try {
             //access Token 발급
             // console.log(result);
-            console.log(process.env.JWT_SECRET_KEY);
+            // console.log(process.env.JWT_SECRET_KEY);
 
             const accessToken = jwt.sign(
               {
@@ -68,6 +68,8 @@ const customerCtrl = {
             );
             // console.log(accessToken);
             res.cookie("accessToken", accessToken, {
+              domain: "https://club-front.vercel.app/",
+              path: "/",
               secure: true,
               httpOnly: true,
             });
