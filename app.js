@@ -13,7 +13,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://club-front-git-main-dchanhong.vercel.app",
+      "https://club-front.vercel.app/",
       "https://chanhong.site",
     ],
     credentials: true,
