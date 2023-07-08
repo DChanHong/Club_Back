@@ -49,13 +49,12 @@ const customerCtrl = {
       // console.log(result);
       if (error) throw error;
       else {
-        console.log(result);
-        console.log("??");
         if (result.length === 1) {
           try {
             //access Token 발급
             // console.log(result);
-            console.log();
+            console.log(process.env.JWT_SECRET_KEY);
+
             const accessToken = jwt.sign(
               {
                 email: email,
