@@ -13,6 +13,15 @@ app.use(
   cors({
     origin: ["http://localhost:3000", "https://club-front.vercel.app"],
     credentials: true,
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+    optionsSuccessStatus: 200,
   })
 );
 
