@@ -49,7 +49,7 @@ const io = socketIO(server, {
   cors: {
     // origin: "http://localhost:3000",
     origin: [
-      "https://chanhong.site",
+      "https://club-front-web.vercel.app",
       "https://club-front.vercel.app",
       "http://localhost:3000",
     ],

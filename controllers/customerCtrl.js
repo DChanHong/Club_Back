@@ -66,7 +66,7 @@ const customerCtrl = {
             );
             // console.log(accessToken);
             res.cookie("accessToken", accessToken, {
-              secure: false,
+              secure: true,
               httpOnly: true,
             });
             res.status(200).json({
