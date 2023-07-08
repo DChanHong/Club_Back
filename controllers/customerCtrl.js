@@ -72,7 +72,7 @@ const customerCtrl = {
               path: "/",
               secure: true,
               httpOnly: true,
-              sameSite: "None",
+              sameSite: "none",
             });
             res.status(200).json({
               login: true,
