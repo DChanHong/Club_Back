@@ -26,7 +26,7 @@ connection.connect((error) => {
     console.log("MYSQL CONNECTERROR" + error.stack);
     return;
   }
-  console.log("MTSQL CONNECT COMPLETE");
+  console.log("MYSQL CONNECT COMPLETE");
 });
 
 //이 connection 어디서든 쓸수 있게 export
