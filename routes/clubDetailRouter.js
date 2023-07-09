@@ -1,6 +1,7 @@
 const clubDetailCtrl = require("../controllers/clubDetailCtrl");
 const router = require("express").Router();
 const authCheck = require("../middleware/authCheck");
+const multer = require("multer");
 
 router.get("/user/entrance/list", clubDetailCtrl.getClubDetailUserList);
 // -> 클럽에 참여한 유저 리스트를 들고온다. SELECT / getClubDetailUserList
@@ -84,4 +85,23 @@ router.put("/notice/host/text", clubDetailCtrl.updateNotice);
 
 router.get("/test/club", clubDetailCtrl.getClub);
 //infiniteScroll 테스트용 클럽데이터 가져오기
+
+// 동아리 백그라운드 업로드
+const strage = multer.diskStorage({
+  destination: (req, file, db) => {
+    db(null, "image/background/");
+  },
+  filename: (req, file, cb) => {
+    const newFileNmae = file.originalname;
+    cb(null, newFileNmae);
+  },
+});
+const upload = multer({ storage: strage });
+
+router.post(
+  "/background/image/upload",
+  upload.single("file"),
+  clubDetailCtrl.uploadClubBackgroundImage
+);
+
 module.exports = router;

@@ -202,10 +202,19 @@ app.use("/api/customer/login", require("./routes/customerRouter"));
 app.use("/api/customer/logout", require("./routes/customerRouter"));
 
 /* 이미지 업로드 */
+
+//프로플 변경
 app.use("/api/image", express.static("image"));
 
 app.use("/api/customer/upload", require("./routes/customerRouter"));
+
+app.use(
+  "/api/club/background/image/upload",
+  require("./routes/clubDetailRouter")
+);
+//동아리 백라운드 변경
 /* 이미지 업로드 */
+
 /* 로그인 및 회원가입 */
 
 /* 홈 화면 */

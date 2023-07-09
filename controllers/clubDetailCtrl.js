@@ -245,6 +245,19 @@ const clubDetailCtrl = {
       }
     });
   },
+  uploadClubBackgroundImage: async (req, res) => {
+    const updateBackImageSQL = "UPDATE CLUB_TABLE SET C_IMAGE=? WHERE C_IDX=?";
+    // console.log(req.file, req.body);
+    const SQLData = [req.file.originalname, req.body.C_IDX];
+    // console.log(SQLData);
+
+    connection.query(updateBackImageSQL, SQLData, (error, result) => {
+      if (error) throw error;
+      else {
+        res.status(200).json({ message: "img변경 완료" });
+      }
+    });
+  },
 };
 
 module.exports = clubDetailCtrl;
