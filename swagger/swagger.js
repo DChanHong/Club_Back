@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:4000", // 요청 url
+        url: "https://chanhong.site", // 요청 url
       },
     ],
   },
