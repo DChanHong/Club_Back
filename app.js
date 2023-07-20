@@ -5,6 +5,12 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const { swaggerUi, specs } = require("./swagger/swagger");
+const router = express.Router();
+
+const session = require("express-session");
+const connection = require("./dbConfig.js");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 dotenv.config();
@@ -15,6 +21,7 @@ app.use(
     credentials: true,
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     optionsSuccessStatus: 200,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -29,7 +36,67 @@ app.use("/api/chat", chatRouter); //이걸로 chatRouter 경로는 설정 끝
 // 여기서 /chat 등록하고 -> 이러면 /chat/user/chat 이렇게 등록된건가?
 
 //
+/* Passport를 이용한 Google Oauth 로그인 */
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.session());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:4000/auth/google/callback", // 로그인 완료 후에 클라이언트 화면 라우팅 주소
+    },
+    (accessToken, refreshToken, profile, cb) => {
+      console.log("Google Strategy:", profile);
+
+      const email = profile.emails[0].value;
+      const IDcheckSQL = "SELECT U_EMAIL FROM USER_TABLE WHERE U_EMAIL=?";
+      const SQLData = [email];
+      console.log(email);
+
+      connection.query(IDcheckSQL, SQLData, (error, result) => {
+        if (error) throw error;
+        else {
+          if (result.length === 0) {
+            console.log("회원 아님");
+          } else {
+            console.log("회원임");
+          }
+        }
+      });
+
+      return cb(null, profile);
+    }
+  )
+);
+app.use(passport.initialize());
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    console.log("Server routing after authentication: ", req.user);
+    res.redirect(
+      "http://localhost:3000/success?user=" + JSON.stringify(req.user)
+    );
+  }
+);
+
+/*  Passport를 이용한 Google Oauth 로그인 */
 // socket 이용을 위한 추가 코드들
 const http = require("http");
 const socketIO = require("socket.io");
@@ -37,13 +104,6 @@ const socketIO = require("socket.io");
 const server = http.createServer(app);
 
 // 서버에서 클라이언트와 WebSocket 연결을 수락
-// const io = socketIO(server, {
-//   cors: {
-//     // origin: "http://localhost:3000",
-//     origin: "https://chanhong.site/",
-//     credentials: true,
-//   },
-// });
 
 const io = socketIO(server, {
   cors: {

@@ -12,13 +12,6 @@ const connection = mysql.createConnection({
   port: conf.port,
   database: conf.database,
 });
-// connection.connect(function (err) {
-//   if (err) {
-//     console.error("Error connecting: " + err.stack);
-//     return;
-//   }
-//   console.log("Connected as id " + connection.threadId);
-// });
 
 // mysql과 연동이 완료
 connection.connect((error) => {
