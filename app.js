@@ -202,7 +202,7 @@ app.get("/naver/callback/oauth", async (req, res) => {
         sameSite: "none",
       });
       res.redirect(
-        `http://localhost:3000/Login/?login=${booleanLogin}&message=${message}`
+        `https://club-front.vercel.app/Login/?login=${booleanLogin}&message=${message}`
       );
     });
     //회원정보 저장 이후 토큰에 담아서 보내주자.
@@ -231,7 +231,7 @@ app.get("/naver/callback/oauth", async (req, res) => {
       sameSite: "none",
     });
     res.redirect(
-      `http://localhost:3000/Login/?login=${booleanLogin}&message=${message}`
+      `https://club-front.vercel.app/Login/?login=${booleanLogin}&message=${message}`
     );
   }
 });
