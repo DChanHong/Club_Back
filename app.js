@@ -9,6 +9,7 @@ const router = express.Router();
 const axios = require("axios");
 const connection = require("./dbConfig.js");
 const request = require("request-promise");
+const jwt = require("jsonwebtoken");
 // const request = require("request");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
@@ -39,6 +40,7 @@ app.use("/api/chat", chatRouter); //이걸로 chatRouter 경로는 설정 끝
 // socket 이용을 위한 추가 코드들
 const http = require("http");
 const socketIO = require("socket.io");
+const { error } = require("console");
 
 const server = http.createServer(app);
 
@@ -109,7 +111,7 @@ app.get("/naver/callback/oauth", async (req, res) => {
 
   const result = await request.get(options);
   const token = result.access_token;
-  console.log(token);
+  // console.log(token);
 
   const info_options = {
     url: "https://openapi.naver.com/v1/nid/me",
@@ -133,6 +135,105 @@ app.get("/naver/callback/oauth", async (req, res) => {
     birthyear: '1998'
   }
    */
+  const checkUserQuery = async (SQLdata) => {
+    return new Promise((resolve, reject) => {
+      connection.query(confirmIDSQL, SQLdata, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+
+  // 받아온 유저데이터로 MYSQL에 유저 확인
+  const SQLdata = [info_result_json.email];
+  const confirmIDSQL = "SELECT U_IDX,U_EMAIL FROM USER_TABLE WHERE U_EMAIL=? ";
+  let count = 0;
+  let userData = "";
+  try {
+    const result = await checkUserQuery(SQLdata);
+    count = result.length;
+    userData = result;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+    return;
+  }
+  // connection.query(confirmIDSQL, SQLdata, (error, result) => {
+  //   count = result.length;
+  // }); //count가 0이면 회원 가입 후 토큰  , count가 1이면 이미 로그인한 인원으로 토큰 을 보내준다.
+  // console.log(count);
+  if (count === 0) {
+    // 네이버 로그인으로 패스워드는 임의로 고정값을 넣어준다.
+    const birth = info_result_json.birthyear + "-" + info_result_json.birthday;
+    const insertData = [
+      info_result_json.email,
+      "naverpass",
+      info_result_json.name,
+      info_result_json.gender,
+      birth,
+    ];
+    // console.log(insertData);
+    const insertSQL =
+      "INSERT INTO USER_TABLE(U_EMAIL,U_PASSWORD,U_NAME,U_GENDER,U_BIRTH) VALUES(?,?,?,?,?)";
+    connection.query(insertSQL, insertData, (error, rows) => {
+      const email = info_result_json.email;
+      const booleanLogin = "true";
+      const message = "로그인 완료";
+      console.log(rows.insertId);
+      const result = [{ U_IDX: rows.insertId, U_EMAIL: email }];
+      const accessToken = jwt.sign(
+        {
+          email: email,
+          result,
+        },
+        process.env.JWT_SECRET_KEY,
+        {
+          expiresIn: "30m",
+          issuer: "hong",
+        }
+      );
+      res.cookie("accessToken", accessToken, {
+        path: "/",
+        secure: true,
+        httpOnly: true,
+        sameSite: "none",
+      });
+      res.redirect(
+        `http://localhost:3000/Login/?login=${booleanLogin}&message=${message}`
+      );
+    });
+    //회원정보 저장 이후 토큰에 담아서 보내주자.
+  } else {
+    console.log("이미 회원임이다");
+    const result = userData;
+    const booleanLogin = "true";
+    const message = "로그인 완료";
+    // 이미 회원이므로 토큰에 담아서 보내주자.
+    const email = info_result_json.email;
+    const accessToken = jwt.sign(
+      {
+        email: email,
+        result,
+      },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "30m",
+        issuer: "hong",
+      }
+    );
+    res.cookie("accessToken", accessToken, {
+      path: "/",
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
+    });
+    res.redirect(
+      `http://localhost:3000/Login/?login=${booleanLogin}&message=${message}`
+    );
+  }
 });
 
 /* 다시 naver Oauth 구현 */

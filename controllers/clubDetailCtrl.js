@@ -61,7 +61,7 @@ const clubDetailCtrl = {
   // 동아리 참여하기
   JoinClub: async (req, res) => {
     const insertSQL = " INSERT INTO ATTEND_USER_TABLE VALUES(?,?)"; //C_IDX ,U_IDX
-
+    // console.log(req.data);
     const insertData = [req.body.data, req.data.result[0].U_IDX];
     connection.query(insertSQL, insertData, (error, result) => {
       if (error) throw error;
@@ -118,17 +118,14 @@ const clubDetailCtrl = {
     JOIN USER_TABLE T2 
     WHERE T1.U_IDX = T2.U_IDX`;
     const SQLdata = [req.query.S_IDX];
-    // console.log(SQLdata);
 
     connection.query(selectSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.status(200).send(result);
-      // console.log(result);
     });
   },
   //댓글 입력
   insertContext: async (req, res) => {
-    // console.log(req.data.result[0].U_IDX, req.body);
     const insertSQL =
       "INSERT INTO CLUB_SCHEDULE_CONTEXT_TABLE(S_IDX,U_IDX,CO_CONTEXT) VALUES(?,?,?)";
     const SQLdata = [
@@ -139,7 +136,6 @@ const clubDetailCtrl = {
     connection.query(insertSQL, SQLdata, (error, result) => {
       if (error) throw error;
       else {
-        // console.log(result.insertId);
         res.status(200).json({ id: result.insertId });
       }
     });
@@ -147,7 +143,7 @@ const clubDetailCtrl = {
   // 호스트 정보 불러오기
   getHostInfo: async (req, res) => {
     // const data = req.query;
-    // console.log(data);
+
     const selectSQL =
       "SELECT T2.U_IDX ,T2.U_NAME, T2.U_IMAGE FROM (SELECT U_IDX FROM CLUB_TABLE WHERE C_IDX=?) T1 JOIN USER_TABLE T2 WHERE T1.U_IDX = T2.U_IDX";
     const SQLdata = [req.query.C_IDX];
@@ -164,7 +160,7 @@ const clubDetailCtrl = {
   },
   deletSchedule: async (req, res) => {
     const deleteSQL = "DELETE FROM CLUB_SCHEDULE_TABLE  WHERE S_IDX =?";
-    // console.log(req.body);
+
     const SQLdata = [req.body.S_IDX];
     connection.query(deleteSQL, SQLdata, (error, result) => {
       if (error) throw error;
@@ -184,7 +180,7 @@ const clubDetailCtrl = {
   deleteContext: async (req, res) => {
     const deleteSQL = "DELETE FROM CLUB_SCHEDULE_CONTEXT_TABLE WHERE CO_IDX=?";
     const SQLdata = [req.body.CO_IDX];
-    console.log(SQLdata);
+
     connection.query(deleteSQL, SQLdata, (error, result) => {
       if (error) throw error;
       res.status(200);
@@ -247,9 +243,8 @@ const clubDetailCtrl = {
   },
   uploadClubBackgroundImage: async (req, res) => {
     const updateBackImageSQL = "UPDATE CLUB_TABLE SET C_IMAGE=? WHERE C_IDX=?";
-    // console.log(req.file, req.body);
+
     const SQLData = [req.file.originalname, req.body.C_IDX];
-    // console.log(SQLData);
 
     connection.query(updateBackImageSQL, SQLData, (error, result) => {
       if (error) throw error;
