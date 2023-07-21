@@ -6,8 +6,10 @@ const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const { swaggerUi, specs } = require("./swagger/swagger");
 const router = express.Router();
-
+const axios = require("axios");
 const connection = require("./dbConfig.js");
+const request = require("request-promise");
+// const request = require("request");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 dotenv.config();
@@ -85,6 +87,55 @@ app.get("/test", (req, res) => {
 app.get("/api/test", (req, res) => {
   res.send("Hello World!  testetst???/");
 });
+
+/* 다시 naver Oauth 구현 */
+app.get("/naver/callback/oauth", async (req, res) => {
+  // console.log(req.query.code); // 1. 일단 authorization code 받기 완료
+  const code = req.query.code;
+  const state = req.query.state;
+  const client_id = process.env.NAVER_CLIENT_ID;
+  const client_secret = process.env.NAVER_CLIENT_SECRET;
+  const redirectURI = process.env.NAVER_REDIRECT_URL;
+  const naver_api_url = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&response_type=code&client_id=${client_id}&client_secret=${client_secret}&redirect_uri=${redirectURI}&code=${code}&state=${state}`;
+  // console.log(naver_api_url);
+  const options = {
+    url: naver_api_url,
+    headers: {
+      "X-Naver-Client-Id": client_id,
+      "X-Naver-Client-Secret": client_secret,
+    },
+    json: true,
+  };
+
+  const result = await request.get(options);
+  const token = result.access_token;
+  console.log(token);
+
+  const info_options = {
+    url: "https://openapi.naver.com/v1/nid/me",
+    headers: { Authorization: "Bearer " + token },
+  };
+  const info_result = await request.get(info_options);
+  const info_result_json = JSON.parse(info_result).response;
+  // console.log(info_result_json);
+  /* 
+  받아온 데이터
+     {
+    id: 'TE51DTGHtbMU80LTYOrKsXIRMKkFd_acfwR6KiEUfR4',
+    nickname: '홍씨익',
+    profile_image: 'https://ssl.pstatic.net/static/pwe/address/img_profile.png',
+    gender: 'M',
+    email: 'bkn367@naver.com',
+    mobile: '010-5897-3405',
+    mobile_e164: '+821058973405',
+    name: '성찬홍',
+    birthday: '01-17',
+    birthyear: '1998'
+  }
+   */
+});
+
+/* 다시 naver Oauth 구현 */
 
 ///----------------------------------------------------------
 
