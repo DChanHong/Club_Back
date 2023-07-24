@@ -11,6 +11,7 @@ const connection = require("./dbConfig.js");
 const request = require("request-promise");
 const jwt = require("jsonwebtoken");
 // const request = require("request");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 dotenv.config();
@@ -223,15 +224,20 @@ app.get("/naver/callback/oauth", async (req, res) => {
 
 /* Serve static assets with an efficient cache policy 해결 시작*/
 
-const maxAge = 31536000; //초 단위, HTTP 캐시의 최대 기간, 1년으로 설정
+const nextJsAppProxy = createProxyMiddleware({
+  target: "http://localhost:3000", // Next.js 서버 주소
+  changeOrigin: true,
+  onProxyRes(proxyRes, req, res) {
+    if (req.url.startsWith("/_next/static/")) {
+      proxyRes.headers["Cache-Control"] = "public, max-age=31536000, immutable";
+    } else if (req.url.startsWith("/_next/data/")) {
+      proxyRes.headers["Cache-Control"] = "public, max-age=0, must-revalidate";
+    }
+  },
+});
 
-app.use(
-  express.static("public", {
-    setHeaders: (res, path, stat) => {
-      res.setHeader("Cache-Control", `public, max-age=${maxAge}`);
-    },
-  })
-);
+app.use("/_next", nextJsAppProxy);
+
 /* Serve static assets with an efficient cache policy 해결 끝 */
 
 ///----------------------------------------------------------
