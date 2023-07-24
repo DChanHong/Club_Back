@@ -225,7 +225,7 @@ app.get("/naver/callback/oauth", async (req, res) => {
 /* Serve static assets with an efficient cache policy 해결 시작*/
 
 const nextJsAppProxy = createProxyMiddleware({
-  target: "http://localhost:3000", // Next.js 서버 주소
+  target: "https://club-front.vercel.app/", // Next.js 서버 주소
   changeOrigin: true,
   onProxyRes(proxyRes, req, res) {
     if (req.url.startsWith("/_next/static/")) {
