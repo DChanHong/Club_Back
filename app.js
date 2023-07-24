@@ -5,13 +5,10 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const { swaggerUi, specs } = require("./swagger/swagger");
-const router = express.Router();
-const axios = require("axios");
+
 const connection = require("./dbConfig.js");
 const request = require("request-promise");
 const jwt = require("jsonwebtoken");
-// const request = require("request");
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 dotenv.config();
@@ -41,7 +38,6 @@ app.use("/api/chat", chatRouter); //이걸로 chatRouter 경로는 설정 끝
 // socket 이용을 위한 추가 코드들
 const http = require("http");
 const socketIO = require("socket.io");
-const { error } = require("console");
 
 const server = http.createServer(app);
 
@@ -223,18 +219,6 @@ app.get("/naver/callback/oauth", async (req, res) => {
 /* naver Oauth 구현 끝*/
 
 /* Serve static assets with an efficient cache policy 해결 시작*/
-
-const nextJsAppProxy = createProxyMiddleware({
-  target: "https://club-front.vercel.app/", // Next.js 서버 주소
-  changeOrigin: true,
-  onProxyRes(proxyRes, req, res) {
-    if (req.url.startsWith("/_next/static/")) {
-      proxyRes.headers["Cache-Control"] = "public, max-age=31536000, immutable";
-    } else if (req.url.startsWith("/_next/data/")) {
-      proxyRes.headers["Cache-Control"] = "public, max-age=0, must-revalidate";
-    }
-  },
-});
 
 app.use("/_next", nextJsAppProxy);
 
