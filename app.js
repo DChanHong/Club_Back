@@ -220,8 +220,6 @@ app.get("/naver/callback/oauth", async (req, res) => {
 
 /* Serve static assets with an efficient cache policy 해결 시작*/
 
-app.use("/_next", nextJsAppProxy);
-
 /* Serve static assets with an efficient cache policy 해결 끝 */
 
 ///----------------------------------------------------------
