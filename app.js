@@ -120,21 +120,7 @@ app.get("/naver/callback/oauth", async (req, res) => {
   const info_result = await request.get(info_options);
   const info_result_json = JSON.parse(info_result).response;
   // console.log(info_result_json);
-  /* 
-  받아온 데이터
-     {
-    id: 'TE51DTGHtbMU80LTYOrKsXIRMKkFd_acfwR6KiEUfR4',
-    nickname: '홍씨익',
-    profile_image: 'https://ssl.pstatic.net/static/pwe/address/img_profile.png',
-    gender: 'M',
-    email: 'bkn367@naver.com',
-    mobile: '010-5897-3405',
-    mobile_e164: '+821058973405',
-    name: '성찬홍',
-    birthday: '01-17',
-    birthyear: '1998'
-  }
-   */
+
   const checkUserQuery = async (SQLdata) => {
     return new Promise((resolve, reject) => {
       connection.query(confirmIDSQL, SQLdata, (error, result) => {
@@ -161,10 +147,7 @@ app.get("/naver/callback/oauth", async (req, res) => {
     res.status(500).send("Internal server error");
     return;
   }
-  // connection.query(confirmIDSQL, SQLdata, (error, result) => {
-  //   count = result.length;
-  // }); //count가 0이면 회원 가입 후 토큰  , count가 1이면 이미 로그인한 인원으로 토큰 을 보내준다.
-  // console.log(count);
+
   if (count === 0) {
     // 네이버 로그인으로 패스워드는 임의로 고정값을 넣어준다.
     const birth = info_result_json.birthyear + "-" + info_result_json.birthday;
@@ -236,7 +219,20 @@ app.get("/naver/callback/oauth", async (req, res) => {
   }
 });
 
-/* 다시 naver Oauth 구현 */
+/* naver Oauth 구현 끝*/
+
+/* Serve static assets with an efficient cache policy 해결 시작*/
+
+const maxAge = 31536000; //초 단위, HTTP 캐시의 최대 기간, 1년으로 설정
+
+app.use(
+  express.static("public", {
+    setHeaders: (res, path, stat) => {
+      res.setHeader("Cache-Control", `public, max-age=${maxAge}`);
+    },
+  })
+);
+/* Serve static assets with an efficient cache policy 해결 끝 */
 
 ///----------------------------------------------------------
 
