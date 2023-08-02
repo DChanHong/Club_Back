@@ -51,10 +51,6 @@ const customerCtrl = {
       else {
         if (result.length === 1) {
           try {
-            //access Token 발급
-            // console.log(result);
-            // console.log(process.env.JWT_SECRET_KEY);
-
             const accessToken = jwt.sign(
               {
                 email: email,
