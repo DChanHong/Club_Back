@@ -28,10 +28,18 @@ const homeAddCtrl = {
   getSliderModalInfo: async (req, res) => {
     const selectSQL = `SELECT C_IDX,U_IDX,C_CATEGORY,C_CATE_DETAIL,C_NAME,C_INTRO, C_AREA,C_IMAGE FROM CLUB_TABLE WHERE C_IDX=?`;
     const SQLdata = [req.query.data];
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      res.status(200).send(result);
-    });
+
+    try {
+      if (SQLdata[0] === null || SQLdata[0] === undefined)
+        throw Error("SQLdata Error");
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(403).send("SQLdata Error");
+    }
   },
   // 동아리 생성
   insertNewClubInfo: async (req, res) => {

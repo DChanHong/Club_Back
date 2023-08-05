@@ -5,68 +5,121 @@ const jwt = require("jsonwebtoken");
 const clubDetailCtrl = {
   //동아리 유저 참여자 정보 불러오기
   getClubDetailUserList: async (req, res) => {
-    const selectSQL = `SELECT A.HOSTNAME , A.C_CATEGORY,A.C_CATE_DETAIL, A.C_NAME, A.C_INTRO ,A.C_AREA, A.C_IMAGE, A.C_TEXT, A.C_IDX,B.U_IDX , B.U_NAME,B.U_IMAGE FROM
-    (SELECT  T1.U_IDX AS HOSTNAME ,T1.C_CATEGORY,T1.C_CATE_DETAIL ,T1.C_NAME,T1.C_INTRO,T1.C_AREA,T1.C_IMAGE,T1.C_TEXT , T2.C_IDX , T2.U_IDX
-    FROM CLUB_TABLE T1
-    JOIN ATTEND_USER_TABLE T2
-    ON T1.C_IDX = T2.C_IDX
-    WHERE T2.C_IDX= ?) A
-    JOIN USER_TABLE B
-    ON A.U_IDX = B.U_IDX`;
-    const SQLdata = [req.query.data];
-
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) {
-        throw error;
+    try {
+      const selectSQL = `SELECT A.HOSTNAME , A.C_CATEGORY,A.C_CATE_DETAIL, A.C_NAME, A.C_INTRO ,A.C_AREA, A.C_IMAGE, A.C_TEXT, A.C_IDX,B.U_IDX , B.U_NAME,B.U_IMAGE FROM
+      (SELECT  T1.U_IDX AS HOSTNAME ,T1.C_CATEGORY,T1.C_CATE_DETAIL ,T1.C_NAME,T1.C_INTRO,T1.C_AREA,T1.C_IMAGE,T1.C_TEXT , T2.C_IDX , T2.U_IDX
+      FROM CLUB_TABLE T1
+      JOIN ATTEND_USER_TABLE T2
+      ON T1.C_IDX = T2.C_IDX
+      WHERE T2.C_IDX= ?) A
+      JOIN USER_TABLE B
+      ON A.U_IDX = B.U_IDX`;
+      // req.query.data = null;
+      const SQLdata = [req.query.data];
+      if (req.query.data === null || undefined)
+        throw new TypeError("SQLdata Error");
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      {
+        error instanceof TypeError
+          ? res.status(405).send("Request Error")
+          : res.status(406).send("error");
       }
-      res.status(200).send(result);
-    });
+    }
   },
   getClubDetailInfo: async (req, res) => {
     const selectSQL = `SELECT * FROM CLUB_TABLE WHERE C_IDX =?`;
     const SQLdata = [req.query.data];
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      res.status(200).send(result);
-    });
+    // const SQLdata = [null];
+    try {
+      if (req.query.dataa === null || undefined)
+        throw TypeError("SQLdata Null Error");
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      if (error instanceof TypeError) {
+        res.status(405).send("SQL Error");
+      } else {
+        res.status(406).send("Error :" + error);
+      }
+    }
   },
   getClubText: async (req, res) => {
-    // console.lo("일단 여기까지 옴");
     const selectSQL = `SELECT C_TEXT ,U_IDX FROM CLUB_TABLE WHERE C_IDX =?`;
     const SQLdata = [req.query.data];
-
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      res.status(200).send(result);
-    });
+    try {
+      if (req.query.data === null || undefined)
+        throw new TypeError("type Error");
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      if (error instanceof TypeError) {
+        res.status(405).send("SQL Error");
+      } else {
+        res.status(406).send("Error :" + error);
+      }
+    }
   },
   // 동아리 참여자인지 아인지 체크
   clubJoinUserCheck: async (req, res) => {
     // 동아리 참여자가 맞으면 U_IDX 존재 , 아니면 null값
     const selectSQL = `SELECT *FROM ATTEND_USER_TABLE WHERE C_IDX=? AND U_IDX =? `;
-
     const SQLdata = [Number(req.query.data), req.data.result[0].U_IDX];
-
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      else {
-        if (result.length === 1) {
-          res.status(200).json({ data: true });
-        } else {
-          res.status(200).json({ data: false });
+    try {
+      if (
+        Number(
+          req.query.data === null ||
+            undefined ||
+            req.data.result[0].U_IDX === null ||
+            undefined
+        )
+      )
+        throw new Error("SQLDATA type Error");
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        else {
+          if (result.length === 1) {
+            res.status(200).json({ data: true });
+          } else {
+            res.status(200).json({ data: false });
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      console.error(error);
+      res.send(405).send("SQLData Error");
+    }
   },
   // 동아리 참여하기
   JoinClub: async (req, res) => {
     const insertSQL = " INSERT INTO ATTEND_USER_TABLE VALUES(?,?)"; //C_IDX ,U_IDX
     // console.log(req.data);
     const insertData = [req.body.data, req.data.result[0].U_IDX];
-    connection.query(insertSQL, insertData, (error, result) => {
-      if (error) throw error;
-      res.status(200).send(result);
-    });
+    try {
+      if (
+        req.body.data === null ||
+        undefined ||
+        req.data.result[0].U_IDX === null ||
+        undefined
+      )
+        throw new Error("SQLDATA TypeError");
+      connection.query(insertSQL, insertData, (error, result) => {
+        if (error) throw error;
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      console.error(error);
+      res.send(405).send("SQLData Error");
+    }
   },
   // 동아리 탈퇴하기
   LeaveClub: async (req, res) => {
@@ -118,11 +171,16 @@ const clubDetailCtrl = {
     JOIN USER_TABLE T2 
     WHERE T1.U_IDX = T2.U_IDX`;
     const SQLdata = [req.query.S_IDX];
-
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      res.status(200).send(result);
-    });
+    try {
+      if (req.query.S_IDX === null || undefined)
+        throw TypeError("SQLdata Error");
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      res.status(405).send("SQLdata TpyeError");
+    }
   },
   //댓글 입력
   insertContext: async (req, res) => {
@@ -133,25 +191,54 @@ const clubDetailCtrl = {
       req.data.result[0].U_IDX,
       req.body.CO_CONTEXT,
     ];
-    connection.query(insertSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      else {
-        res.status(200).json({ id: result.insertId });
+    try {
+      if (
+        req.body.S_IDX.S_IDX === null ||
+        undefined ||
+        req.data.result[0].U_IDX === null ||
+        undefined ||
+        req.body.CO_CONTEXT === null ||
+        undefined
+      ) {
+        throw new TypeError("SQLdata TypeError");
       }
-    });
+      connection.query(insertSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        else {
+          res.status(200).json({ id: result.insertId });
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof TypeError) {
+        res.status(405).send("SQLdata TypeError");
+      } else {
+        res.status(402).send("error:" + error);
+      }
+    }
   },
   // 호스트 정보 불러오기
   getHostInfo: async (req, res) => {
-    // const data = req.query;
-
     const selectSQL =
       "SELECT T2.U_IDX ,T2.U_NAME, T2.U_IMAGE FROM (SELECT U_IDX FROM CLUB_TABLE WHERE C_IDX=?) T1 JOIN USER_TABLE T2 WHERE T1.U_IDX = T2.U_IDX";
     const SQLdata = [req.query.C_IDX];
+    // const SQLdata = [undefined];
+    try {
+      if (SQLdata[0] === null || SQLdata[0] === undefined)
+        throw new TypeError("SQLdata TypeError");
 
-    connection.query(selectSQL, SQLdata, (error, result) => {
-      if (error) throw error;
-      res.status(200).send(result);
-    });
+      connection.query(selectSQL, SQLdata, (error, result) => {
+        if (error) throw error;
+        res.status(200).send(result);
+      });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof TypeError) {
+        res.status(405).send("SQLdata TypeError");
+      } else {
+        res.status(406).send("error : " + error);
+      }
+    }
   },
   // 내 유저IDX 불러오기
   getMyIdx: async (req, res) => {
